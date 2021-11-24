@@ -7,6 +7,9 @@ from classes.Spritesheet import Spritesheet
 
 
 class Menu:
+    '''
+    메인 화면을 보여주는 클래스
+    '''
     def __init__(self, screen, dashboard, level, sound):
         self.screen = screen
         self.sound = sound
@@ -40,6 +43,9 @@ class Menu:
         self.loadSettings("./settings.json")
 
     def update(self):
+        '''
+        메인 화면을 업데이트 하는 함수
+        '''
         self.checkInput()
         if self.inChoosingLevel:
             return
@@ -53,6 +59,9 @@ class Menu:
             self.drawSettings()
 
     def drawDot(self):
+        '''
+        메인 화면의 Choose Level, Setting, Exit중 선택된 항목을 표시해주는 점을 그리는 함수
+        '''
         if self.state == 0:
             self.screen.blit(self.menu_dot, (145, 273))
             self.screen.blit(self.menu_dot2, (145, 313))
@@ -67,6 +76,11 @@ class Menu:
             self.screen.blit(self.menu_dot2, (145, 313))
 
     def loadSettings(self, url):
+        '''
+        셋팅 데이터를 가져오는 함수
+
+        :param url: 셋팅이 저장된 json 파일 path
+        '''
         try:
             with open(url) as jsonData:
                 data = json.load(jsonData)
@@ -88,17 +102,30 @@ class Menu:
             self.saveSettings("./settings.json")
 
     def saveSettings(self, url):
+        '''
+        변경된 셋팅을 json 파일로 저장하는 함수
+
+        :param url: 셋팅 json 파일 저장 경로
+        '''
         data = {"sound": self.music, "sfx": self.sfx}
         with open(url, "w") as outfile:
             json.dump(data, outfile)
 
     def drawMenu(self):
+        '''
+        메인 메뉴에서 선택지를 보여주는 함수
+        '''
         self.drawDot()
         self.dashboard.drawText("CHOOSE LEVEL", 180, 280, 24)
         self.dashboard.drawText("SETTINGS", 180, 320, 24)
         self.dashboard.drawText("EXIT", 180, 360, 24)
 
     def drawMenuBackground(self, withBanner=True):
+        '''
+        메인 메뉴 배경 그리는 함수
+
+        :param withBanner: Super Mario Bros 배너를 보이는지 여부
+        '''
         for y in range(0, 13):
             for x in range(0, 20):
                 self.screen.blit(
@@ -135,6 +162,9 @@ class Menu:
         self.screen.blit(self.level.sprites.spriteCollection.get("goomba-1").image, (18.5*32, 12*32))
 
     def drawSettings(self):
+        '''
+        셋팅 화면을 그리는 함수
+        '''
         self.drawDot()
         self.dashboard.drawText("MUSIC", 180, 280, 24)
         if self.music:
@@ -149,18 +179,34 @@ class Menu:
         self.dashboard.drawText("BACK", 180, 360, 24)
 
     def chooseLevel(self):
+        '''
+        스테이지 선택 목록을 그리는 함수
+        '''
         self.drawMenuBackground(False)
         self.inChoosingLevel = True
         self.levelNames = self.loadLevelNames()
         self.drawLevelChooser()
 
     def drawBorder(self, x, y, width, height, color, thickness):
+        '''
+        레벨 선택에 있는 흰 테두리를 그리는 함수
+
+        :param x: 그릴 가로 위치
+        :param y: 그릴 세로 위치
+        :param width: 그릴 박스 너비
+        :param height: 그릴 박스 높이
+        :param color: 그릴 박스 색
+        :param thickness: 그릴 박스 선 두께
+        '''
         pygame.draw.rect(self.screen, color, (x, y, width, thickness))
         pygame.draw.rect(self.screen, color, (x, y+width, width, thickness))
         pygame.draw.rect(self.screen, color, (x, y, thickness, width))
         pygame.draw.rect(self.screen, color, (x+width, y, thickness, width+thickness))
 
     def drawLevelChooser(self):
+        '''
+        선택된 레벨만 다른 색깔로 그리는 함수
+        '''
         j = 0
         offset = 75
         textOffset = 90
@@ -178,6 +224,9 @@ class Menu:
                 j += 1
 
     def loadLevelNames(self):
+        '''
+        선택 가능한 레벨 이름을 텍스트로 그리는 함수
+        '''
         files = []
         res = []
         for r, d, f in os.walk("./levels"):
@@ -189,6 +238,9 @@ class Menu:
         return res
 
     def checkInput(self):
+        '''
+        메인 메뉴에서의 키 입력에 관여하는 함수
+        '''
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:

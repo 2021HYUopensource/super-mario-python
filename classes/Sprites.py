@@ -6,6 +6,9 @@ from classes.Spritesheet import Spritesheet
 
 
 class Sprites:
+    '''
+    스프라이트를 로드하는 클래스
+    '''
     def __init__(self):
         self.spriteCollection = self.loadSprites(
             [
@@ -20,6 +23,12 @@ class Sprites:
         )
 
     def loadSprites(self, urlList):
+        '''
+        스프라이트를 전체 이미지에서 가져오는 함수
+
+        :param urlList: 스프라이트 json 파일
+        :return: 스프라이트 목록 딕셔너리
+        '''
         resDict = {}
         for url in urlList:
             with open(url) as jsonData:

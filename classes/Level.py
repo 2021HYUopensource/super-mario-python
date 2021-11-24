@@ -13,6 +13,9 @@ from entities.RandomBox import RandomBox
 
 
 class Level:
+    '''
+    스테이지를 레벨에 맞게 화면에 출력하는 클래스
+    '''
     def __init__(self, screen, sound, dashboard):
         self.sprites = Sprites()
         self.dashboard = dashboard
@@ -23,6 +26,11 @@ class Level:
         self.entityList = []
 
     def loadLevel(self, levelname):
+        '''
+        레벨에 맞는 스테이지 데이터 로딩 함수
+
+        :param levelname: 로딩할 레벨 이름
+        '''
         with open("./levels/{}.json".format(levelname)) as jsonData:
             data = json.load(jsonData)
             self.loadLayers(data)
@@ -31,6 +39,11 @@ class Level:
             self.levelLength = data["length"]
 
     def loadEntities(self, data):
+        '''
+        맵 json 데이터에서 엔티티(CoinBox, Goomba, Koopa, Coin, coinBrick, RandomBox) 추출하는 함수
+
+        :param data: 맵 json 데이터
+        '''
         try:
             [self.addCoinBox(x, y) for x, y in data["level"]["entities"]["CoinBox"]]
             [self.addGoomba(x, y) for x, y in data["level"]["entities"]["Goomba"]]
@@ -43,6 +56,11 @@ class Level:
             pass
 
     def loadLayers(self, data):
+        '''
+        맵 json 데이터에서 레이어(sky, gorund) 추출하는 함수
+
+        :param data: 맵 json 데이터
+        '''
         layers = []
         for x in range(*data["level"]["layers"]["sky"]["x"]):
             layers.append(
@@ -63,6 +81,11 @@ class Level:
         self.level = list(map(list, zip(*layers)))
 
     def loadObjects(self, data):
+        '''
+        맵 json 데이터에서 오브젝트(bush, cloud, pipe, sky, ground) 추출하는 함수
+
+        :param data: 맵 json 데이터
+        '''
         for x, y in data["level"]["objects"]["bush"]:
             self.addBushSprite(x, y)
         for x, y in data["level"]["objects"]["cloud"]:
@@ -78,12 +101,22 @@ class Level:
             )
 
     def updateEntities(self, cam):
+        '''
+        엔티티 목록 업데이트 함수
+
+        :param cam: 화면을 보이는 카메라
+        '''
         for entity in self.entityList:
             entity.update(cam)
             if entity.alive is None:
                 self.entityList.remove(entity)
 
     def drawLevel(self, camera):
+        '''
+        카메라에 맞게 배경을 업데이트 해주는 함수
+
+        :param camera: 화면을 보여주는 카메라
+        '''
         try:
             for y in range(0, 15):
                 for x in range(0 - int(camera.pos.x + 1), 20 - int(camera.pos.x - 1)):
@@ -101,6 +134,12 @@ class Level:
             return
 
     def addCloudSprite(self, x, y):
+        '''
+        구름 스프라이트 추가
+
+        :param x: 보여줄 가로 위치
+        :param y: 보여줄 세로 위치
+        '''
         try:
             for yOff in range(0, 2):
                 for xOff in range(0, 3):
@@ -110,6 +149,13 @@ class Level:
             return
 
     def addPipeSprite(self, x, y, length=2):
+        '''
+        파이프 스프라이트 추가
+
+        :param x: 보여줄 가로 위치
+        :param y: 보여줄 세로 위치
+        :param length: 모르겠음
+        '''
         try:
             # add pipe head
             self.level[y][x] = Tile(
@@ -134,6 +180,12 @@ class Level:
             return
 
     def addBushSprite(self, x, y):
+        '''
+        부쉬 스프라이트 추가
+
+        :param x: 보여줄 가로 위치
+        :param y: 보여줄 세로 위치
+        '''
         try:
             self.level[y][x] = Tile(self.sprites.spriteCollection.get("bush_1"), None)
             self.level[y][x + 1] = Tile(
@@ -146,6 +198,12 @@ class Level:
             return
 
     def addCoinBox(self, x, y):
+        '''
+        코인박스 추가
+
+        :param x: 보여줄 가로 위치
+        :param y: 보여줄 세로 위치
+        '''
         self.level[y][x] = Tile(None, pygame.Rect(x * 32, y * 32 - 1, 32, 32))
         self.entityList.append(
             CoinBox(
@@ -159,6 +217,13 @@ class Level:
         )
 
     def addRandomBox(self, x, y, item):
+        '''
+        랜덤박스 추가
+
+        :param x: 보여줄 가로 위치
+        :param y: 보여줄 세로 위치
+        :param item: 나오는 아이템 종류
+        '''
         self.level[y][x] = Tile(None, pygame.Rect(x * 32, y * 32 - 1, 32, 32))
         self.entityList.append(
             RandomBox(
@@ -174,9 +239,21 @@ class Level:
         )
 
     def addCoin(self, x, y):
+        '''
+        코인 추가
+
+        :param x: 보여줄 가로 위치
+        :param y: 보여줄 세로 위치
+        '''
         self.entityList.append(Coin(self.screen, self.sprites.spriteCollection, x, y))
 
     def addCoinBrick(self, x, y):
+        '''
+        코인 벽돌 추가
+
+        :param x: 보여줄 가로 위치
+        :param y: 보여줄 세로 위치
+        '''
         self.level[y][x] = Tile(None, pygame.Rect(x * 32, y * 32 - 1, 32, 32))
         self.entityList.append(
             CoinBrick(
@@ -190,16 +267,34 @@ class Level:
         )
 
     def addGoomba(self, x, y):
+        '''
+        굼바 추가
+
+        :param x: 보여줄 가로 위치
+        :param y: 보여줄 세로 위치
+        '''
         self.entityList.append(
             Goomba(self.screen, self.sprites.spriteCollection, x, y, self, self.sound)
         )
 
     def addKoopa(self, x, y):
+        '''
+        쿠파 추가
+
+        :param x: 보여줄 가로 위치
+        :param y: 보여줄 세로 위치
+        '''
         self.entityList.append(
             Koopa(self.screen, self.sprites.spriteCollection, x, y, self, self.sound)
         )
 
     def addRedMushroom(self, x, y):
+        '''
+        빨간버석 추가
+
+        :param x: 보여줄 가로 위치
+        :param y: 보여줄 세로 위치
+        '''
         self.entityList.append(
             RedMushroom(self.screen, self.sprites.spriteCollection, x, y, self, self.sound)
         )
