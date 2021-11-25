@@ -29,7 +29,7 @@ class Spritesheet(object):
         :param scalingfactor: 이미지 스케일 변경 배수
         :type scalingfactor: int
         :param colorkey: 투명하게 만들 뒷 배경 컬러
-        :type colorkey: list[int, int, int]
+        :type colorkey: pygame.color.Color | list[int]
         :param ignoreTileSize: 타이틀 무시 여부
         :type ignoreTileSize: bool
         :param xTileSize: 타이틀 가로 사이즈. ignoreTileSize=True일 경우, backround에서 사용 될 스프라이트의 반봇 횟수로도 쓰임

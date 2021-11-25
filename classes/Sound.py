@@ -28,7 +28,9 @@ class Sound:
     def play_sfx(self, sfx):
         '''
         효과음 재생하는 함수
+
         :param sfx: 재생할 효과음 이름
+        :type sfx: mixer.Sound
         '''
         if self.allowSFX:
             self.sfx_channel.play(sfx)
@@ -36,6 +38,8 @@ class Sound:
     def play_music(self, music):
         '''
         배경음악 재생하는 함수
+
         :param music: 재생할 배경음 이름
+        :type music: mixer.Sound
         '''
         self.music_channel.play(music)

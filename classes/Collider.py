@@ -1,4 +1,7 @@
 class Collider:
+    '''
+    맵 오브젝트 충돌 판정에 관여하는 클래스
+    '''
     def __init__(self, entity, level):
         self.entity = entity
         self.level = level.level
@@ -6,6 +9,11 @@ class Collider:
         self.result = []
 
     def checkX(self):
+        '''
+        가로 충돌 여부 체크 함수
+
+        :raise Exception: level 인덱스 범위를 넘길때 예외 발생
+        '''
         if self.leftLevelBorderReached() or self.rightLevelBorderReached():
             return
         try:
@@ -29,6 +37,11 @@ class Collider:
                             self.entity.vel.x = 0
 
     def checkY(self):
+        '''
+        세로 충돌 여부 체크 험수
+
+        :raise Exception: level 인덱스 범위를 넘길때/게임 오버 될 때 예외 발생
+        '''
         self.entity.onGround = False
         
         try:
@@ -63,12 +76,24 @@ class Collider:
                             self.entity.vel.y = 0
 
     def rightLevelBorderReached(self):
+        '''
+        맵 오른쪽 끝에 닿았는지 여부 체크
+
+        :return: 맵 오른쪽 끝 충돌 여부
+        :rtype: bool
+        '''
         if self.entity.getPosIndexAsFloat().x > self.levelObj.levelLength - 1:
             self.entity.rect.x = (self.levelObj.levelLength - 1) * 32
             self.entity.vel.x = 0
             return True
 
     def leftLevelBorderReached(self):
+        '''
+        맵 왼쪽 끝에 닿았는지 여부 체크
+
+        :return: 맵 왼쪽 끝 충돌 여부
+        :rtype: bool
+        '''
         if self.entity.rect.x < 0:
             self.entity.rect.x = 0
             self.entity.vel.x = 0

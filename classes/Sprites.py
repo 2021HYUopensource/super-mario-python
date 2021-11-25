@@ -27,7 +27,9 @@ class Sprites:
         스프라이트를 전체 이미지에서 가져오는 함수
 
         :param urlList: 스프라이트 json 파일
+        :type urlList: list[str]
         :return: 스프라이트 목록 딕셔너리
+        :raise KeyError: 잘못된 컬러키 입력시 예외 발생
         '''
         resDict = {}
         for url in urlList:

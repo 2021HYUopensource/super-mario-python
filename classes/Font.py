@@ -20,6 +20,7 @@ class Font(Spritesheet):
         폰트를 로딩하는 함수.
 
         :return: 폰트 스프라이트 리턴
+        :rtype: dict
         '''
         font = {}
         row = 0

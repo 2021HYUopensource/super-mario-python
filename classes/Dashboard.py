@@ -24,7 +24,9 @@ class Dashboard(Font):
         self.time = 0
 
     def update(self):
-        '''화면을 업데이트 하는 함수'''
+        '''
+        화면을 업데이트 하는 함수
+        '''
         self.drawText("MARIO", 50, 20, 15)
         self.drawText(self.pointString(), 50, 37, 15)
 
@@ -43,10 +45,7 @@ class Dashboard(Font):
             self.ticks = 0
             self.time += 1
 
-    def drawText(self, text:str,
-                 x:int,
-                 y:int,
-                 size:int):
+    def drawText(self, text, x, y, size):
         '''
         화면에 글자를 그리는 함수
 
@@ -67,21 +66,21 @@ class Dashboard(Font):
             else:
                 x += size
 
-    def coinString(self) -> str:
+    def coinString(self):
         '''
         :return: 코인 출력 포멧
         :rtype: str
         '''
         return "{:02d}".format(self.coins)
 
-    def pointString(self) -> str:
+    def pointString(self):
         '''
         :return: 점수 출력 포멧
         :rtype: str
         '''
         return "{:06d}".format(self.points)
 
-    def timeString(self) -> str:
+    def timeString(self):
         '''
         :return: 남은 시간 출력 포멧
         :rtype: str

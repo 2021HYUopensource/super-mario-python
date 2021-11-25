@@ -30,6 +30,7 @@ class Level:
         레벨에 맞는 스테이지 데이터 로딩 함수
 
         :param levelname: 로딩할 레벨 이름
+        :type levelname: str
         '''
         with open("./levels/{}.json".format(levelname)) as jsonData:
             data = json.load(jsonData)
@@ -43,6 +44,8 @@ class Level:
         맵 json 데이터에서 엔티티(CoinBox, Goomba, Koopa, Coin, coinBrick, RandomBox) 추출하는 함수
 
         :param data: 맵 json 데이터
+        :type data: dict
+        :raise Exception: 엔티티가 레벨 안에 없을때 발생
         '''
         try:
             [self.addCoinBox(x, y) for x, y in data["level"]["entities"]["CoinBox"]]
@@ -60,6 +63,7 @@ class Level:
         맵 json 데이터에서 레이어(sky, gorund) 추출하는 함수
 
         :param data: 맵 json 데이터
+        :type data: dict
         '''
         layers = []
         for x in range(*data["level"]["layers"]["sky"]["x"]):
@@ -85,6 +89,7 @@ class Level:
         맵 json 데이터에서 오브젝트(bush, cloud, pipe, sky, ground) 추출하는 함수
 
         :param data: 맵 json 데이터
+        :type data: dict
         '''
         for x, y in data["level"]["objects"]["bush"]:
             self.addBushSprite(x, y)
@@ -105,6 +110,7 @@ class Level:
         엔티티 목록 업데이트 함수
 
         :param cam: 화면을 보이는 카메라
+        :type cam: classes.Camera.Camera
         '''
         for entity in self.entityList:
             entity.update(cam)
@@ -116,6 +122,8 @@ class Level:
         카메라에 맞게 배경을 업데이트 해주는 함수
 
         :param camera: 화면을 보여주는 카메라
+        :type camera: classes.Camera.Camera
+        :raise IndexError: level 인덱스 범위를 넘길때 예외 발생
         '''
         try:
             for y in range(0, 15):
@@ -138,7 +146,10 @@ class Level:
         구름 스프라이트 추가
 
         :param x: 보여줄 가로 위치
+        :type x: int
         :param y: 보여줄 세로 위치
+        :type y: int
+        :raise IndexError: level 인덱스 범위를 넘길때 예외 발생
         '''
         try:
             for yOff in range(0, 2):
@@ -153,8 +164,12 @@ class Level:
         파이프 스프라이트 추가
 
         :param x: 보여줄 가로 위치
+        :type x: int
         :param y: 보여줄 세로 위치
+        :type y: int
         :param length: 모르겠음
+        :type length: int
+        :raise IndexError: level 인덱스 범위를 넘길때 예외 발생
         '''
         try:
             # add pipe head
@@ -184,7 +199,10 @@ class Level:
         부쉬 스프라이트 추가
 
         :param x: 보여줄 가로 위치
+        :type x: int
         :param y: 보여줄 세로 위치
+        :type y: int
+        :raise IndexError: level 인덱스 범위를 넘길때 예외 발생
         '''
         try:
             self.level[y][x] = Tile(self.sprites.spriteCollection.get("bush_1"), None)
@@ -202,7 +220,9 @@ class Level:
         코인박스 추가
 
         :param x: 보여줄 가로 위치
+        :type x:int
         :param y: 보여줄 세로 위치
+        :type y: int
         '''
         self.level[y][x] = Tile(None, pygame.Rect(x * 32, y * 32 - 1, 32, 32))
         self.entityList.append(
@@ -221,8 +241,11 @@ class Level:
         랜덤박스 추가
 
         :param x: 보여줄 가로 위치
+        :type x: int
         :param y: 보여줄 세로 위치
+        :type y: int
         :param item: 나오는 아이템 종류
+        :type item: str
         '''
         self.level[y][x] = Tile(None, pygame.Rect(x * 32, y * 32 - 1, 32, 32))
         self.entityList.append(
@@ -243,7 +266,9 @@ class Level:
         코인 추가
 
         :param x: 보여줄 가로 위치
+        :type x: int
         :param y: 보여줄 세로 위치
+        :type y: int
         '''
         self.entityList.append(Coin(self.screen, self.sprites.spriteCollection, x, y))
 
@@ -252,7 +277,9 @@ class Level:
         코인 벽돌 추가
 
         :param x: 보여줄 가로 위치
+        :type x: int
         :param y: 보여줄 세로 위치
+        :type y: int
         '''
         self.level[y][x] = Tile(None, pygame.Rect(x * 32, y * 32 - 1, 32, 32))
         self.entityList.append(
@@ -271,7 +298,9 @@ class Level:
         굼바 추가
 
         :param x: 보여줄 가로 위치
+        :type x: int
         :param y: 보여줄 세로 위치
+        :type y: int
         '''
         self.entityList.append(
             Goomba(self.screen, self.sprites.spriteCollection, x, y, self, self.sound)
@@ -282,7 +311,9 @@ class Level:
         쿠파 추가
 
         :param x: 보여줄 가로 위치
+        :type x: int
         :param y: 보여줄 세로 위치
+        :type y: int
         '''
         self.entityList.append(
             Koopa(self.screen, self.sprites.spriteCollection, x, y, self, self.sound)
@@ -293,7 +324,9 @@ class Level:
         빨간버석 추가
 
         :param x: 보여줄 가로 위치
+        :type x: int
         :param y: 보여줄 세로 위치
+        :type y: int
         '''
         self.entityList.append(
             RedMushroom(self.screen, self.sprites.spriteCollection, x, y, self, self.sound)

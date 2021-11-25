@@ -80,6 +80,8 @@ class Menu:
         셋팅 데이터를 가져오는 함수
 
         :param url: 셋팅이 저장된 json 파일 path
+        :type url: str
+        :raise IOError, OSError: 설정 json 파일을 찾을 수 없을때 예외 발생
         '''
         try:
             with open(url) as jsonData:
@@ -106,6 +108,7 @@ class Menu:
         변경된 셋팅을 json 파일로 저장하는 함수
 
         :param url: 셋팅 json 파일 저장 경로
+        :type url: str
         '''
         data = {"sound": self.music, "sfx": self.sfx}
         with open(url, "w") as outfile:
@@ -125,6 +128,7 @@ class Menu:
         메인 메뉴 배경 그리는 함수
 
         :param withBanner: Super Mario Bros 배너를 보이는지 여부
+        :type withBanner: bool
         '''
         for y in range(0, 13):
             for x in range(0, 20):
@@ -192,11 +196,17 @@ class Menu:
         레벨 선택에 있는 흰 테두리를 그리는 함수
 
         :param x: 그릴 가로 위치
+        :type x: int
         :param y: 그릴 세로 위치
+        :type y: int
         :param width: 그릴 박스 너비
+        :type width: int
         :param height: 그릴 박스 높이
+        :type height: int
         :param color: 그릴 박스 색
+        :type color: tuple[int, int, int]
         :param thickness: 그릴 박스 선 두께
+        :type thickness: int
         '''
         pygame.draw.rect(self.screen, color, (x, y, width, thickness))
         pygame.draw.rect(self.screen, color, (x, y+width, width, thickness))
@@ -226,6 +236,9 @@ class Menu:
     def loadLevelNames(self):
         '''
         선택 가능한 레벨 이름을 텍스트로 그리는 함수
+
+        :return: 파일 이름에서 가져온 레벨 리스트 리턴
+        :rtype: list[str]
         '''
         files = []
         res = []
