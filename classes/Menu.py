@@ -8,7 +8,7 @@ from classes.Spritesheet import Spritesheet
 
 class Menu:
     '''
-    메인 화면을 보여주는 클래스
+    게임 시작 직후 나오는 메인 화면 담당하는 클래스
     '''
     def __init__(self, screen, dashboard, level, sound):
         self.screen = screen
