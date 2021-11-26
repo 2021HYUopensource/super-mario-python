@@ -8,6 +8,7 @@
    1. [classes.Menu.Menu](#classesmenumenu)
    2. [classes.Dashboard.Dashboard](#classesdashboarddashboard)
    2. [classes.Level.Level](#classeslevellevel)
+   2. [classes.Sound.Sound](#classessoundsound)
 
 # classes
 
@@ -399,3 +400,36 @@ class Level(screen=None
   * y : int - 빨간 버섯 스프라이트를 추가할 y 좌표
 * 리턴값: 없음
 * 예외: 없음
+
+## classes.Sound.Sound
+
+```py
+class Sound()
+```
+
+### 목적
+
+효과음과 배경음 재생에 관여하는 클래스
+
+### 파라미터
+
+없음
+
+### 메소드
+
+#### play_sfx
+
+* 설명: 효과음을 재생하는 함수
+* 파라미터
+  * sfx : str - 재생할 효과음 이름
+* 리턴값: 없음
+* 예외: 없음
+
+#### play_music
+
+* 설명: 배경음악을 재생하는 함수
+* 파라미터
+  * music : str - 재생할 배경음악 이름
+* 리턴값: 없음
+* 예외: 없음
+
