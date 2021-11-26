@@ -266,3 +266,6 @@ class Level(screen=None
   * levelname : str - 로딩할 레벨 파일 이름
 * 리턴값 : 없음
 * 예외: 없음
+
+#### loadEntities
+
