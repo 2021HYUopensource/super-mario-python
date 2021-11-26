@@ -204,7 +204,7 @@ class Menu:
         :param height: 그릴 박스 높이
         :type height: int
         :param color: 그릴 박스 색
-        :type color: tuple[int, int, int]
+        :type color: tuple[int]
         :param thickness: 그릴 박스 선 두께
         :type thickness: int
         '''
@@ -235,7 +235,7 @@ class Menu:
 
     def loadLevelNames(self):
         '''
-        선택 가능한 레벨 이름을 텍스트로 그리는 함수
+        ./levels/ 폴더 안에 있는 레벨들의 파일 이름을 가져와 리턴하는 함수
 
         :return: 파일 이름에서 가져온 레벨 리스트 리턴
         :rtype: list[str]
