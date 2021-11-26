@@ -575,3 +575,31 @@ class Sprites()
 class Spritesheet(filename=None)
 ```
 
+### 목적
+
+스프라이트 이미지를 잘라 로딩하는 클래스
+
+<img src="./img/characters.gif" alt="supermario_main" width="70%" height="70%" />
+
+### 파라미터
+
+#### filename
+
+* 타입: str
+* 설명: 로딩할 스프라이트 이미지
+
+### 메소드
+
+#### image_at
+
+* 설명: 스프라이트 이미지 파일중 원하는 부분만 좌표로 잘라서 리턴하는 함수
+* 파라미터
+  * x : int - 원하는 스프라이트의 x 좌표
+  * y : int - 원하는 스프라이트의 y 좌표
+  * scalingfactor : int - 이미지 확대 배수
+  * colorkey : pygame.Color.Color | List[int] - 크로마키 할 색
+  * ingnoreTitleSize : bool - 타이틀 무시 여부. 정확한 용도 파악 필요
+  * xTitleSize : int - ignoreTitleSize가 False일 경우, 타이틀 이미지 로딩에 필요한 너비를 계산
+  * yTitleSize : int - ignoreTitleSize가 False일 경우, 타이틀 이미지 로딩에 필요한 높이를 계산
+* 리턴값: pygame.Surface - 로딩한 스프라이트 리턴
+* 예외: 없음
