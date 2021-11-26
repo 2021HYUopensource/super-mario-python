@@ -12,6 +12,7 @@
    2. [classes.Pause.Pause](#classespausepause)
    2. [classes.Sprite.Sprite](#classesspritesprite)
    2. [classes.Sprites.Sprites](#classesspritessprites)
+   2. [classes.Spritesheet.Spritesheet](#classesspritesheetspritesheet)
 
 # classes
 
@@ -499,6 +500,13 @@ class Pause(screen=None,
 
 ## classes.Sprite.Sprite
 
+```py
+class Sprite(image=None,
+	colliding=None,
+	animation=None,
+	redrawBackground=False)
+```
+
 ### 목적
 
 스프라이트를 그리는 클래스
@@ -539,6 +547,10 @@ class Pause(screen=None,
 
 ## classes.Sprites.Sprites
 
+```py
+class Sprites()
+```
+
 ### 목적
 
 스프라이트 json 데이터를 분석하고 로드하는 클래스
@@ -556,3 +568,10 @@ class Pause(screen=None,
   * urlList : List[str] - 로딩할 json 파일 리스트
 * 리턴값: json 파일에서 파싱 완료된 스프라이트 데이터를 딕셔너리 타입으로 리턴
 * 예외: KeyError - colorKey가 None일 경우 발생 
+
+## classes.Spritesheet.Spritesheet
+
+```py
+class Spritesheet(filename=None)
+```
+
