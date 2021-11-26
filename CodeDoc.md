@@ -5,8 +5,8 @@
 ## 목차
 
 1. [classes](#classes)
-   1. [classes.Menu.Menu](#classes-menu-menu)
-   2. [classes.Dashboard.Dashboard](#classes-dashboard-dashboard)
+   1. [classes.Menu.Menu](#classesmenumenu)
+   2. [classes.Dashboard.Dashboard](#classesdashboarddashboard)
 
 # classes
 
@@ -43,7 +43,7 @@ pygame.Surface
 
 ##### 형식
 
-[classes.Dashboard.Dashboard](#classes.dashboard.dashboard)
+[classes.Dashboard.Dashboard](#classesdashboarddashboard)
 
 ##### 설명
 
@@ -53,7 +53,7 @@ pygame.Surface
 
 ##### 형식
 
-[classes.Level.Level](#classes.level.level)
+[classes.Level.Level](#classeslevellevel)
 
 ##### 설명
 
@@ -63,7 +63,7 @@ pygame.Surface
 
 ##### 형식
 
-[classes.Sound.Sound](#classes.sound.sound)
+[classes.Sound.Sound](#classessoundsound)
 
 ##### 설명
 
