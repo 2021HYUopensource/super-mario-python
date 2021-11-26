@@ -11,6 +11,7 @@
    2. [classes.Sound.Sound](#classessoundsound)
    2. [classes.Pause.Pause](#classespausepause)
    2. [classes.Sprite.Sprite](#classesspritesprite)
+   2. [classes.Sprites.Sprites](#classesspritessprites)
 
 # classes
 
@@ -535,3 +536,23 @@ class Pause(screen=None,
   * screen : pygame.Surface - 스프라이트를 그릴 공간
 * 리턴값: 없음
 * 예외: 없음
+
+## classes.Sprites.Sprites
+
+### 목적
+
+스프라이트 json 데이터를 분석하고 로드하는 클래스
+
+### 파라미터
+
+없음
+
+### 메소드
+
+#### loadSprites
+
+* 설명: 스프라이트 json 파일을 읽어와 파싱하고 로딩하는 함수
+* 파라미터
+  * urlList : List[str] - 로딩할 json 파일 리스트
+* 리턴값: json 파일에서 파싱 완료된 스프라이트 데이터를 딕셔너리 타입으로 리턴
+* 예외: KeyError - colorKey가 None일 경우 발생 
