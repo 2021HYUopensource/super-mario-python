@@ -5,8 +5,8 @@
 ## 목차
 
 1. [classes](#classes)
-   1. [classes.Menu.Menu](#classes.menu.menu)
-   2. [classes.Dashboard.Dashboard](#classes.dashboard.dashboard)
+   1. [classes.Menu.Menu](#classes-menu-menu)
+   2. [classes.Dashboard.Dashboard](#classes-dashboard-dashboard)
 
 # classes
 
