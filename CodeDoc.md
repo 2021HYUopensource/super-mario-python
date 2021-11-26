@@ -1,12 +1,13 @@
 # 기존 코드 문서
 
-기존에 작성되있던 클래스, 함수를 문서화 하여 향후 개발에 참고할 예정입니다.
+기존에 작성되있던 클래스, 함수를 문서화 하여 향후 개발에 참고할 예정이다.
 
 ## 목차
 
 1. [classes](#classes)
    1. [classes.Menu.Menu](#classesmenumenu)
    2. [classes.Dashboard.Dashboard](#classesdashboarddashboard)
+   2. [classes.Level.Level](#classeslevellevel)
 
 # classes
 
@@ -144,12 +145,12 @@ class Menu(screen=None,
 
 * 설명: ./levels/ 폴더 안에 있는 레벨들의 파일 이름을 가져와 리턴하는 함수.
 * 파라미터: 없음
-* 리턴값 : list[str] - 레벨 이름들을 리스트 형태로 리턴
+* 리턴값 : list[str] - 레벨 이름들을 리스트 형태로 리턴.
 * 예외: 없음
 
 #### checkInput
 
-* 설명: 메인 화면에서 키 입력에 관여하는 함수
+* 설명: 메인 화면에서 키 입력에 관여하는 함수.
 * 파라미터: 없음
 * 리턴값: 없음
 * 예외: 없음
@@ -177,7 +178,7 @@ class Dashboard(filePath=None
 #### size
 
 * 타입: int
-* 설명: 텍스트의 사이즈. 현재는 쓰이지 않음
+* 설명: 텍스트의 사이즈. 현재는 쓰이지 않음.
 
 #### screen
 
@@ -223,4 +224,45 @@ class Dashboard(filePath=None
 * 설명: 플레이 시간 출력 포멧을 리턴하는 함수
 * 파라미터: 없음
 * 리턴값 : str - 플레이 시간 출력 포멧
+* 예외: 없음
+
+## classes.Level.Level
+
+```py
+class Level(screen=None
+	sound=None
+	dashboard=None)
+```
+
+### 목적
+
+레벨 파일에서 가져온 데이터로 플레이 할 스테이지를 화면에 출력하는 클래스.
+
+### 파라미터
+
+#### screen
+
+* 타입: pygame.Surface
+
+* 설명: 스테이지를 그릴 공간
+
+#### sound
+
+* 타입: [classes.Sound.Sound](#classessoundsound)
+
+* 설명: 레벨에 있는 구성요소마다 알맞는 효과음을 지정하기 위해 사용.
+
+#### dashboard
+
+* 타입: [classes.Dashboard.Dashboard](#classesdashboarddashboard)
+* 설명: 레벨 구성 요소 중 점수와 관련된 요소에게 점수 표시 텍스트를 바꿀 수 있는 기능을 구현하기 위해 사용.
+
+### 메소드
+
+#### loadLevel
+
+* 설명: 레벨 json 파일을 읽어와 구성요소를 파싱하는 함수
+* 파라미터
+  * levelname : str - 로딩할 레벨 파일 이름
+* 리턴값 : 없음
 * 예외: 없음

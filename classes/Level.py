@@ -14,7 +14,7 @@ from entities.RandomBox import RandomBox
 
 class Level:
     '''
-    스테이지를 레벨에 맞게 화면에 출력하는 클래스
+    레벨 파일에서 가져온 데이터로 플레이 할 스테이지를 화면에 출력하는 클래스
     '''
     def __init__(self, screen, sound, dashboard):
         self.sprites = Sprites()
@@ -27,7 +27,7 @@ class Level:
 
     def loadLevel(self, levelname):
         '''
-        레벨에 맞는 스테이지 데이터 로딩 함수
+        레벨 json 파일을 읽어와 구성요소를 파싱하는 함수
 
         :param levelname: 로딩할 레벨 이름
         :type levelname: str
