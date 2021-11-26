@@ -5,9 +5,9 @@ from classes.Font import Font
 
 class Dashboard(Font):
     '''
-    전체적인 화면 출력에 관여하는 클래스. :class:`Font` 의 하위 클래스
+    화면에 텍스트 출력을 담당하는 클래스. :class:`Font` 의 하위 클래스
 
-    :ivar filePath: 텍스트 파일 경로
+    :ivar filePath: 폰트 파일 경로
     :ivar size: 텍스트 size (안 쓰이는 파라미터)
     :ivar screen: 출력할 화면
     '''
@@ -25,7 +25,7 @@ class Dashboard(Font):
 
     def update(self):
         '''
-        화면을 업데이트 하는 함수
+        게임 플레이 상태를 반영해 텍스트를 업데이트하는 함수
         '''
         self.drawText("MARIO", 50, 20, 15)
         self.drawText(self.pointString(), 50, 37, 15)
@@ -51,9 +51,9 @@ class Dashboard(Font):
 
         :param text: 출력할 텍스트
         :type text: str
-        :param x: 출력할 가로 위치
+        :param x: 출력할 x 좌표
         :type x: int
-        :param y: 출력할 세로 위치
+        :param y: 출력할 y 좌표
         :type y: int
         :param size: 출력할 텍스트 크기
         :type size: int
@@ -82,7 +82,7 @@ class Dashboard(Font):
 
     def timeString(self):
         '''
-        :return: 남은 시간 출력 포멧
+        :return: 플레이 시간 출력 포멧
         :rtype: str
         '''
         return "{:03d}".format(self.time)

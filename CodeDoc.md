@@ -31,25 +31,25 @@ class Menu(screen=None,
 
 #### screen
 
-* 형식: pygame.Surface
+* 타입: pygame.Surface
 
 * 설명: 메인 화면을 그릴 공간.
 
 #### dashboard
 
-* 형식: [classes.Dashboard.Dashboard](#classesdashboarddashboard)
+* 타입: [classes.Dashboard.Dashboard](#classesdashboarddashboard)
 
 * 설명: 화면에 게임 플레이와 관련된 글자를 그리는 클래스. 여기서는 **선택 메뉴의 글자 출력**을 위해서 쓰임.
 
 #### level
 
-* 형식: [classes.Level.Level](#classeslevellevel)
+* 타입: [classes.Level.Level](#classeslevellevel)
 
 * 설명: 레벨 배경 출력, 레벨 목록 생성 등 레벨에 관한 전반적인 입출력을 담당하는 클래스. 여기서는** 메인화면 뒷 배경 출력, 레벨 목록 생성 및 선택, 메뉴에서의 키보드 입력 감지** 를 위해 사용됨.
 
 #### sound
 
-* 형식: [classes.Sound.Sound](#classessoundsound)
+* 타입: [classes.Sound.Sound](#classessoundsound)
 
 * 설명: 게임 소리 출력을 담당하는 클래스. 여기서는 **배경음 재생 및 사운드 설정**을 위해서 사용됨.
 
@@ -156,3 +156,71 @@ class Menu(screen=None,
 
 ## classes.Dashboard.Dashboard
 
+```py
+class Dashboard(filePath=None
+	size=None
+	screen=None)
+```
+
+### 목적
+
+화면에 텍스트 출력을 담당하는 클래스. [classes.Font.Font](classesfontfont)의 하위 클래스이다.
+
+### 파라미터
+
+#### filePath
+
+* 타입: str
+
+* 설명: 폰트 파일 경로
+
+#### size
+
+* 타입: int
+* 설명: 텍스트의 사이즈. 현재는 쓰이지 않음
+
+#### screen
+
+* 타입: pygame.Surface
+* 설명: 텍스트를 출력할 공간.
+
+### 메소드
+
+#### update
+
+* 설명: 게임 플레이 상태를 반영해 텍스트를 업데이트하는 함수
+* 파라미터: 없음
+* 리턴값: 없음
+* 예외: 없음
+
+#### drawText
+
+* 설명: 화면에 글자를 그리는 함수
+* 파라미터
+  * text : str - 출력할 텍스트
+  * x : int - 출력할 x 좌표
+  * y : int - 출력할 y 좌표
+  * size : int - 출력할 텍스트 크기
+* 리턴값: 없음
+* 예외: 없음
+
+#### coinString
+
+* 설명: 코인 출력 포멧을 리턴하는 함수
+* 파라미터: 없음
+* 리턴값 : str - 코인 출력 포멧
+* 예외: 없음
+
+#### pointString
+
+* 설명: 점수 출력 포멧을 리턴하는 함수
+* 파라미터: 없음
+* 리턴값 : str - 점수 출력 포멧
+* 예외: 없음
+
+#### timeString
+
+* 설명: 플레이 시간 출력 포멧을 리턴하는 함수
+* 파라미터: 없음
+* 리턴값 : str - 플레이 시간 출력 포멧
+* 예외: 없음
