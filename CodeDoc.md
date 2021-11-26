@@ -9,6 +9,7 @@
    2. [classes.Dashboard.Dashboard](#classesdashboarddashboard)
    2. [classes.Level.Level](#classeslevellevel)
    2. [classes.Sound.Sound](#classessoundsound)
+   2. [classes.Pause.Pause](#classespausepause)
 
 # classes
 
@@ -159,8 +160,8 @@ class Menu(screen=None,
 ## classes.Dashboard.Dashboard
 
 ```py
-class Dashboard(filePath=None
-	size=None
+class Dashboard(filePath=None,
+	size=None,
 	screen=None)
 ```
 
@@ -230,8 +231,8 @@ class Dashboard(filePath=None
 ## classes.Level.Level
 
 ```py
-class Level(screen=None
-	sound=None
+class Level(screen=None,
+	sound=None,
 	dashboard=None)
 ```
 
@@ -433,3 +434,63 @@ class Sound()
 * 리턴값: 없음
 * 예외: 없음
 
+## classes.Pause.Pause
+
+```py
+class Pause(screen=None,
+	entity=None,
+	dashboard=None)
+```
+
+### 목적
+
+게임 플레이를 일시정지 했을때 보이는 화면에 관여하는 클래스
+
+<img src="./img/docs/supermario_pause.png" alt="supermario_main" width="70%" height="70%" />
+
+### 파라미터
+
+#### screen
+
+* 타입: pygame.Surface
+* 설명: 정지화면을 그릴 공간
+
+#### entity
+
+* 타입: [entities.Mario.Mario](#entitiesmariomario)
+* 설명: 정지 여부를 판단할 마리오 캐릭터
+
+#### dashboard
+
+* 타입: [classes.Dashboard.Dashboard](#classesdashboarddashboard)
+* 설명: 정지 화면에서 텍스트 출력을 위한 클래스
+
+### 메소드
+
+#### update
+
+* 설명: 일시정지 화면을 업데이트 하기 위한 함수.
+* 파라미터: 없음
+* 리턴값: 없음
+* 예외: 없음
+
+#### drawDot
+
+* 설명: 일시정지 화면에서 선택 항목 중 어떤걸 선택했는지 텍스트 왼쪽에 점으로 보여주는 함수.
+* 파라미터: 없음
+* 리턴값: 없음
+* 예외: 없음
+
+#### checkInput
+
+* 설명: 일시정지 화면에서 키 입력에 관여하는 함수.
+* 파라미터: 없음
+* 리턴값: 없음
+* 예외: 없음
+
+#### createBackgroundBlur
+
+* 설명: 일시정지 화면에서 뒷 배경에 블러 효과를 주는 함수
+* 파라미터: 없음
+* 리턴값: 없음
+* 예외: 없음
