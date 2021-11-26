@@ -35,6 +35,7 @@ class Spritesheet(object):
         :param xTileSize: 타이틀 가로 사이즈. ignoreTileSize=True일 경우, backround에서 사용 될 스프라이트의 반봇 횟수로도 쓰임
         :param yTileSize: 타이틀 세로 사이즈. ignoreTileSize=True일 경우, backround에서 사용 될 스프라이트의 반봇 횟수로도 쓰임
         :return: scale된 이미지 리턴
+        :rtype: pygame.Surface
         '''
         if ignoreTileSize:
             rect = pygame.Rect((x, y, xTileSize, yTileSize))

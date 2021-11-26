@@ -10,6 +10,7 @@
    2. [classes.Level.Level](#classeslevellevel)
    2. [classes.Sound.Sound](#classessoundsound)
    2. [classes.Pause.Pause](#classespausepause)
+   2. [classes.Sprite.Sprite](#classesspritesprite)
 
 # classes
 
@@ -492,5 +493,45 @@ class Pause(screen=None,
 
 * 설명: 일시정지 화면에서 뒷 배경에 블러 효과를 주는 함수
 * 파라미터: 없음
+* 리턴값: 없음
+* 예외: 없음
+
+## classes.Sprite.Sprite
+
+### 목적
+
+스프라이트를 그리는 클래스
+
+### 파라미터
+
+#### image
+
+* 타입: pygame.Surface
+* 설명: 그릴 대상이 되는 스프라이트
+
+#### colliding
+
+* 타입: bool
+* 설명: 충돌 판정 여부
+
+#### animation
+
+* 타입: [classes.Animation.Animation](#classesanimationanimation)
+* 설명: 엔티티의 상태에 따른 이미지를 바꿔주기 위한 클래스
+
+#### redrawBackground
+
+* 타입: bool
+* 설명: 해당 스프라이트를 그릴때 배경을 다시 그릴지 여부
+
+### 메소드
+
+#### drawSprite
+
+* 설명: 스프라이트를 그리는 함수
+* 파라미터
+  * x : int - 스프라이트를 그릴 x 좌표
+  * y : int - 스프라이트를 그릴 y 좌표
+  * screen : pygame.Surface - 스프라이트를 그릴 공간
 * 리턴값: 없음
 * 예외: 없음
