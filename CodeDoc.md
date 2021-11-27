@@ -18,6 +18,8 @@
    2. [classes.Input.Input](#classesinputinput)
    2. [classes.GaussianBlur.GaussianBlur](#classesgaussianblurgaussianblur)
    2. [classes.Font.Font](#classesfontfont)
+   2. [classes.EntityCollider.EntityCollider](#classesentitycolliderentitycollider)
+   2. [classes.EntityCollider.CollisionState](#classesentitycollidercollisionstate)
 
 # classes
 
@@ -465,7 +467,7 @@ class Pause(screen=None,
 
 #### entity
 
-* 타입: [entities.Mario.Mario](#entitiesmariomario)
+* 타입: [entities.EntityBase](#entitiesentitybase)
 * 설명: 정지 여부를 판단할 마리오 캐릭터
 
 #### dashboard
@@ -807,3 +809,66 @@ class Font(filePath=None,
 * 파라미터: 없음
 * 리턴값: dict - 아스키코드 번호와 폰트 이미지가 쌍이된 딕셔너리 리턴
 * 예외: 없음
+
+## classes.EntityCollider.EntityCollider
+
+```py
+class EntityCollider(entity=None)
+```
+
+### 목적
+
+엔티티 충돌 판정 범위에 관여하는 클래스
+
+### 파라미터
+
+#### entity
+
+* 타입: [entities.EntityBase](#entitiesentitybase)
+* 설명: 충돌 판정 범위를 지정할 엔티티
+
+### 메소드
+
+#### check
+
+* 설명: 엔티티 자신과 다른 엔티티와 충돌 여부를 검사하는 함수
+* 파라미터
+  * target : [entities.EntityBase](#entitiesentitybase) - 자신과 충돌 여부를 판별할 대상
+* 리턴값: [classes.EntityCollider.CollisionState](#classesentitycollidercollisionstate) - 충돌 상태를 리턴
+* 예외: 없음
+
+#### determineSide
+
+* 설명: 두 엔티티의 충돌 상태를 판별하는 함수
+* 파라미터
+  * rect1 : [entities.EntityBase](#entitiesentitybase) - 충돌 상태를 판별할 대상
+  * rect2 : [entities.EntityBase](#entitiesentitybase) - 충돌 상태를 판별할 대상
+* 리턴값: [classes.EntityCollider.CollisionState](#classesentitycollidercollisionstate) - 충돌 상태를 리턴
+* 예외: 없음
+
+## classes.EntityCollider.CollisionState
+
+```py
+class CollisionState(_isColliding=None,
+	_isTop=None)
+```
+
+### 목적
+
+충돌 상태를 나타내는 클래스
+
+### 파라미터
+
+#### _isColliding
+
+* 타입: bool
+* 설명: 충돌 중인지 여부
+
+#### _isTop
+
+* 타입: bool
+* 설명: 충돌한 방향이 위쪽인지 여부
+
+### 메소드
+
+없음
