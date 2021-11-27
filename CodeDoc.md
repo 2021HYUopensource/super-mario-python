@@ -20,6 +20,7 @@
    2. [classes.Font.Font](#classesfontfont)
    2. [classes.EntityCollider.EntityCollider](#classesentitycolliderentitycollider)
    2. [classes.EntityCollider.CollisionState](#classesentitycollidercollisionstate)
+   2. [classes.Collider.Collider](#classescollidercollider)
 
 # classes
 
@@ -872,3 +873,56 @@ class CollisionState(_isColliding=None,
 ### 메소드
 
 없음
+
+## classes.Collider.Collider
+
+```py
+class Collider(entity=None,
+	level=None)
+```
+
+### 목적
+
+엔티티와 맵 오브젝트의 충돌 판정을 담당하는 클래스
+
+### 파라미터
+
+#### entity
+
+* 타입: [entities.EntityBase](#entitiesentitybase)
+* 설명: 충돌 판정을 할 엔티티
+
+#### level
+
+* 타입: [classes.Level.Level](#classeslevellevel)
+* 설명: 충돌 판정을 할 맵
+
+### 메소드
+
+#### checkX
+
+* 설명: x축 충돌 판정 함수
+* 파라미터: 없음
+* 리턴값: 없음
+* 예외: level에서 맵 데이터 인덱스 범위를 넘길때 발생
+
+#### checkY
+
+* 설명: y축 충돌 판정 함수
+* 파라미터: 없음
+* 리턴값: 없음
+* 예외: level에서 맵 데이터 인덱스 범위를 넘길때/게임 오버가 됐을때 발생
+
+#### rightLevelBorderReachhed
+
+* 설명: 엔티티가 맵 오른쪽 끝에 닿았는지 여부
+* 파라미터: 없음
+* 리턴값: bool - 맵 오른쪽 끝에 닿았는지 여부
+* 예외: 없음
+
+#### leftLevelBorderReachhed
+
+* 설명: 엔티티가 맵 왼쪽 끝에 닿았는지 여부
+* 파라미터: 없음
+* 리턴값: bool - 맵 왼쪽 끝에 닿았는지 여부
+* 예외: 없음
