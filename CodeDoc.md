@@ -17,6 +17,7 @@
    2. [classes.Maths.Vec2D](#classesmathsvec2d)
    2. [classes.Input.Input](#classesinputinput)
    2. [classes.GaussianBlur.GaussianBlur](#classesgaussianblurgaussianblur)
+   2. [classes.Font.Font](#classesfontfont)
 
 # classes
 
@@ -771,4 +772,38 @@ class GaussianBlur(kernelsize=7)
   * width : int - 가우시안 블러를 적용할 필터의 너비
   * height : int - 가우시안 블러를 적용할 필터의 높이
 * 리턴값: pygame.Surface - 가우시안 블러가 적용된 화면 리턴
+* 예외: 없음
+
+## classes.Font.Font
+
+```py
+class Font(filePath=None,
+	size=None)
+```
+
+### 목적
+
+화면에 출력할 폰트를 로딩하는 클래스. [classes.Spritesheet.Spritesheet](#classesspritesheetspritesheet)의 하위클래스.
+
+### 파라미터
+
+#### filePath
+
+* 타입: str
+* 설명: 로딩할 폰트 이미지 파일
+
+<img src="./img/font.png" alt="supermario_main" width="70%" height="70%" style="background-color: #000000" />
+
+#### size
+
+* 타입: int
+* 설명: 텍스트 사이즈. 현재 쓰이지 않는 파라미터.
+
+### 메소드
+
+#### loadFont
+
+* 설명: 폰트를 로딩하는 함수
+* 파라미터: 없음
+* 리턴값: dict - 아스키코드 번호와 폰트 이미지가 쌍이된 딕셔너리 리턴
 * 예외: 없음
