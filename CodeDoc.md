@@ -13,6 +13,7 @@
    2. [classes.Sprite.Sprite](#classesspritesprite)
    2. [classes.Sprites.Sprites](#classesspritessprites)
    2. [classes.Spritesheet.Spritesheet](#classesspritesheetspritesheet)
+   2. [classes.Tile.Tile](#classestiletile)
 
 # classes
 
@@ -603,3 +604,37 @@ class Spritesheet(filename=None)
   * yTitleSize : int - ignoreTitleSize가 False일 경우, 타이틀 이미지 로딩에 필요한 높이를 계산
 * 리턴값: pygame.Surface - 로딩한 스프라이트 리턴
 * 예외: 없음
+
+## classes.Tile.Tile
+
+```py
+class Tile(sprite=None
+	rect=None)
+```
+
+### 목적
+
+스프라이트 이미지를 한 칸씩 저장하고 있는 클래스
+
+### 파라미터
+
+#### sprite
+
+* 타입: [classes.Sprite.Sprite](#classesspritesprite)
+* 설명: 저장하고 있을 스프라이트
+
+#### rect
+
+* 타입: pygame.Rect
+* 설명: 스프라이트를 출력 할 공간.
+
+### 메소드
+
+#### drawRect
+
+* 설명: 스프라이트를 그리는 함수. 현재 프로그램 안에서 한번도 쓰이지 않는 함수. 완전히 삭제해도 문제없이 프로그램이 동작
+* 파라미터
+  * screen :  pygame.Surface - 사각형을 그릴 공간
+* 리턴값: 없음
+* 예외: Exception - draw 과정에서 오류 발생시 발생
+
