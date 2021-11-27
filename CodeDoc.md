@@ -16,6 +16,7 @@
    2. [classes.Tile.Tile](#classestiletile)
    2. [classes.Maths.Vec2D](#classesmathsvec2d)
    2. [classes.Input.Input](#classesinputinput)
+   2. [classes.GaussianBlur.GaussianBlur](#classesgaussianblurgaussianblur)
 
 # classes
 
@@ -739,4 +740,35 @@ entity로 받은 엔티티를 플레이어가 조작할 수 있게 해주는 클
   * events : Eventlist - 이벤트 종류
   * button : int - 마우스 입력 종류. 마우스 클릭이 왼쪽인지 오른쪽인지 구분하는데 쓰임.
 * 리턴값: bool - 마우스가 제대로 입력 됬는지 여부
+* 예외: 없음
+
+## classes.GaussianBlur.GaussianBlur
+
+```py
+class GaussianBlur(kernelsize=7)
+```
+
+### 목적
+
+일시정지 화면에서 배경 화면에 가우시안 블러 효과를 넣는 클래스
+
+### 파라미터
+
+#### kernelsize
+
+* 타입: int
+* 설명: 가우시안 블러를 적용할 커널 사이즈
+
+### 메소드
+
+#### filter
+
+* 설명: 가우시안 블러를 적용한 배경화면을 만드는 함수
+* 파라미터
+  * srfc : pygame.Surface - 가우시안 블러를 적용할 화면
+  * xpos : int - 가우시안 블러를 적용하기 시작할 x 좌표
+  * ypos : int - 가우시안 블러를 적용하기 시작할 y 좌표
+  * width : int - 가우시안 블러를 적용할 필터의 너비
+  * height : int - 가우시안 블러를 적용할 필터의 높이
+* 리턴값: pygame.Surface - 가우시안 블러가 적용된 화면 리턴
 * 예외: 없음
