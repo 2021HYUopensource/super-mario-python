@@ -15,6 +15,7 @@
    2. [classes.Spritesheet.Spritesheet](#classesspritesheetspritesheet)
    2. [classes.Tile.Tile](#classestiletile)
    2. [classes.Maths.Vec2D](#classesmathsvec2d)
+   2. [classes.Input.Input](#classesinputinput)
 
 # classes
 
@@ -609,7 +610,7 @@ class Spritesheet(filename=None)
 ## classes.Tile.Tile
 
 ```py
-class Tile(sprite=None
+class Tile(sprite=None,
 	rect=None)
 ```
 
@@ -641,6 +642,11 @@ class Tile(sprite=None
 
 ## classes.Maths.Vec2D
 
+```py
+class Vec2D(x=0,
+	y=0)
+```
+
 ### 목적
 
 게임 화면 안에 물체의 x, y 좌표를 나타내는 클래스
@@ -661,3 +667,76 @@ class Tile(sprite=None
 
 없음
 
+## classes.Input.Input
+
+```py
+class Input(entity=None)
+```
+
+### 목적
+
+entity로 받은 엔티티를 플레이어가 조작할 수 있게 해주는 클래스.
+
+### 파라미터
+
+#### entity
+
+* 타입: [entities.EntityBase](#entitiesentitybase)
+* 설명: 키보드 입력으로 조작할 엔티티
+
+### 메소드
+
+#### checkForInput
+
+* 설명: 모든 종류의 입력 여부를 검사하는 함수
+* 파라미터: 없음
+* 리턴값: 없음
+* 예외: 없음
+
+#### checkForKeyboardInput
+
+* 설명: 키보드 입력 여부를 검사하는 함수
+* 파라미터: 없음
+* 리턴값: 없음
+* 예외: 없음
+
+#### checkForMouseInput
+
+* 설명: 마우스 입력 여부를 검사하는 함수
+* 파라미터
+  * events : Eventlist - 이벤트 종류. 마우스 클릭이 왼쪽인지 오른쪽인지 구분하는데 쓰임.
+* 리턴값: 없음
+* 예외: 없음
+
+#### checkForQuitAndRestartInputEvents
+
+* 설명: 게임 중지 및 나가기 입력 여부를 검사하는 함수
+* 파라미터
+  * events : Eventlist - 이벤트 종류. 윈도우 x 버튼 입력, ecs키 입력을 구분하는데 쓰임.
+* 리턴값: 없음
+* 예외: 없음
+
+#### isLeftMouseButtonPressed
+
+* 설명: 마우스 왼쪽 입력 여부를 검사하는 함수
+* 파라미터
+  * events : Eventlist - 이벤트 종류.
+* 리턴값: bool - 마우스 입력이 왼쪽 입력이 맞는지 여부
+* 예외: 없음
+
+#### isRightMouseButtonPressed
+
+* 설명: 마우스 오른쪽 입력 여부를 검사하는 함수
+* 파라미터
+  * events : Eventlist - 이벤트 종류
+* 리턴값: bool - 마우스 입력이 오른쪽 입력이 맞는지 여부
+* 예외: 없음
+
+#### checkMouse
+
+* 설명: 마우스가 눌렸는지 확인하는 함수
+* 파라미터
+  * events : Eventlist - 이벤트 종류
+  * button : int - 마우스 입력 종류. 마우스 클릭이 왼쪽인지 오른쪽인지 구분하는데 쓰임.
+* 리턴값: bool - 마우스가 제대로 입력 됬는지 여부
+* 예외: 없음
