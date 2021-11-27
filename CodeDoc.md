@@ -22,6 +22,7 @@
    2. [classes.EntityCollider.CollisionState](#classesentitycollidercollisionstate)
    2. [classes.Collider.Collider](#classescollidercollider)
    2. [classes.Camera.Camera](#classescameracamera)
+   2. [classes.Animation.Animation](#classesanimationanimation)
 
 # classes
 
@@ -956,6 +957,64 @@ class Camera(pos=None,
 #### move
 
 * 설명: 카메라를 엔티티에 맞게 움직여주는 함수
+* 파라미터: 없음
+* 리턴값: 없음
+* 예외: 없음
+
+## classes.Animation.Animation
+
+```py
+class Animation(images=None,
+	idleSprite=None,
+	airSprite=None,
+	deltaTime=7)
+```
+
+### 목적
+
+엔티티의 상태에 따라 스프라이트를 바꿔주는 클래스
+
+### 파라미터
+
+#### images
+
+* 타입: List[pygame.Surface]
+* 설명: 애니메이션에 쓰일 스프라이트 리스트
+
+#### idelSprite
+
+* 타입: pygame.Surface
+* 설명: 평상시에 쓰이는 스프라이트
+
+#### airSprite
+
+* 타입: pygame.Surface
+* 설명: 공중에 뜰때 쓰이는 스프라이트
+
+#### deltaTime
+
+* 타입: int
+* 설명: 몇 프레임마다 스프라이트를 업데이트 하는지 여부
+
+### 메소드
+
+#### update
+
+* 설명: 엔티티 상태에 따라 스프라이트를 업데이트 하는 함수
+* 파라미터: 없음
+* 리턴값: 없음
+* 예외: 없음
+
+#### idle
+
+* 설명: 엔티티가 평상시 상태일때 스프라이트를 업데이트 하는 함수
+* 파라미터: 없음
+* 리턴값: 없음
+* 예외: 없음
+
+#### inAir
+
+* 설명: 엔티티가 공중에 뜬 상태일때 스프라이트를 업데이트 하는 함수
 * 파라미터: 없음
 * 리턴값: 없음
 * 예외: 없음
