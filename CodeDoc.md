@@ -21,6 +21,7 @@
    2. [classes.EntityCollider.EntityCollider](#classesentitycolliderentitycollider)
    2. [classes.EntityCollider.CollisionState](#classesentitycollidercollisionstate)
    2. [classes.Collider.Collider](#classescollidercollider)
+   2. [classes.Camera.Camera](#classescameracamera)
 
 # classes
 
@@ -925,4 +926,36 @@ class Collider(entity=None,
 * 설명: 엔티티가 맵 왼쪽 끝에 닿았는지 여부
 * 파라미터: 없음
 * 리턴값: bool - 맵 왼쪽 끝에 닿았는지 여부
+* 예외: 없음
+
+## classes.Camera.Camera
+
+```py
+class Camera(pos=None,
+	entity=None)
+```
+
+### 목적
+
+플레이어가 조작하는 엔티티에 맞게 화면을 보여주는 클래스
+
+### 파라미터
+
+#### pos
+
+* 타입: [classes.Maths.Vec2D](#classesmathsvec2d)
+* 설명: 카메라가 위치할 좌표
+
+#### entity
+
+* 타입: [entities.EntityBase](#entitiesentitybase)
+* 설명: 카메아가 따라갈 엔티티
+
+### 메소드
+
+#### move
+
+* 설명: 카메라를 엔티티에 맞게 움직여주는 함수
+* 파라미터: 없음
+* 리턴값: 없음
 * 예외: 없음
