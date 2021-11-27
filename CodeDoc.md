@@ -14,6 +14,7 @@
    2. [classes.Sprites.Sprites](#classesspritessprites)
    2. [classes.Spritesheet.Spritesheet](#classesspritesheetspritesheet)
    2. [classes.Tile.Tile](#classestiletile)
+   2. [classes.Maths.Vec2D](#classesmathsvec2d)
 
 # classes
 
@@ -637,4 +638,26 @@ class Tile(sprite=None
   * screen :  pygame.Surface - 사각형을 그릴 공간
 * 리턴값: 없음
 * 예외: Exception - draw 과정에서 오류 발생시 발생
+
+## classes.Maths.Vec2D
+
+### 목적
+
+게임 화면 안에 물체의 x, y 좌표를 나타내는 클래스
+
+### 파라미터
+
+#### x
+
+* 타입: int
+* 설명: 물체의 x 좌표
+
+#### y
+
+* 타입: int
+* 설명: 물체의 y 좌표
+
+### 메소드
+
+없음
 
