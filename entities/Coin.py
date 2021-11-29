@@ -15,6 +15,9 @@ class Coin(EntityBase):
         self.type = "Item"
 
     def update(self, cam):
+        '''
+        코인의 모습을 업데이트 하는 함수
+        '''
         if self.alive:
             self.animation.update()
             self.screen.blit(self.animation.image, (self.rect.x + cam.x, self.rect.y))
