@@ -10,12 +10,18 @@ class Input:
         self.entity = entity
 
     def checkForInput(self):
+        '''
+        모든 입력을 확인하는 함수
+        '''
         events = pygame.event.get()
         self.checkForKeyboardInput()
         self.checkForMouseInput(events)
         self.checkForQuitAndRestartInputEvents(events)
 
     def checkForKeyboardInput(self):
+        '''
+        키보드 입력을 확인하는 함수
+        '''
         pressedKeys = pygame.key.get_pressed()
 
         if pressedKeys[K_LEFT] or pressedKeys[K_h] and not pressedKeys[K_RIGHT]:
@@ -31,6 +37,12 @@ class Input:
         self.entity.traits['goTrait'].boost = pressedKeys[K_LSHIFT]
 
     def checkForMouseInput(self, events):
+        '''
+        마우스 입력을 확인하는 함수
+
+        :param events: 이벤트 종류
+        :type events: list[pygame.event.Event]
+        '''
         mouseX, mouseY = pygame.mouse.get_pos()
         if self.isRightMouseButtonPressed(events):
             self.entity.levelObj.addKoopa(
@@ -48,6 +60,12 @@ class Input:
             )
 
     def checkForQuitAndRestartInputEvents(self, events):
+        '''
+        게임 중지 및 나가기 입력을 확인하는 함수
+
+        :param events: 이벤트 종류
+        :type events: list[pygame.event.Event]
+        '''
         for event in events:
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -58,12 +76,38 @@ class Input:
                 self.entity.pauseObj.createBackgroundBlur()
 
     def isLeftMouseButtonPressed(self, events):
+        '''
+        마우스 왼쪽 입력을 확인하는 함수
+
+        :param events: 이벤트 종류
+        :type events: list[pygame.event.Event]
+        :return: 왼쪽/오른쪽 클릭 여부
+        :rtype: bool
+        '''
         return self.checkMouse(events, 1)
 
     def isRightMouseButtonPressed(self, events):
+        '''
+        마우스 오른쪽 입력을 확인하는 함수
+
+        :param events: 이벤트 종류
+        :type events: list[pygame.event.Event]
+        :return: 왼쪽/오른쪽 클릭 여부
+        :rtype: bool
+        '''
         return self.checkMouse(events, 3)
 
     def checkMouse(self, events, button):
+        '''
+        마우스 입력을 확인하는 함수
+
+        :param events: 이벤트 종류
+        :type events: list[pygame.event.Event]
+        :param button: 이벤트 타입
+        :type button: int
+        :return: 왼쪽/오른쪽 클릭 여부
+        :rtype: bool
+        '''
         for e in events:
             if e.type == pygame.MOUSEBUTTONUP and e.button == button:
                 return True

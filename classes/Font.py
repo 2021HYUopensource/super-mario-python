@@ -3,12 +3,25 @@ import pygame
 
 
 class Font(Spritesheet):
-    def __init__(self, filePath, size):
+    '''
+    Font를 로딩하는 클래스. :class:`Spritesheet` 의 하위클래스.
+
+    :ivar filePath: 텍스트 파일 경로
+    :ivar size: 텍스트 size (안 쓰이는 파라미터)
+    '''
+    def __init__(self, filePath:str,
+                 size:int):
         Spritesheet.__init__(self, filename=filePath)
         self.chars = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
         self.charSprites = self.loadFont()
 
     def loadFont(self):
+        '''
+        폰트를 로딩하는 함수.
+
+        :return: 폰트 스프라이트 리턴
+        :rtype: dict
+        '''
         font = {}
         row = 0
         charAt = 0

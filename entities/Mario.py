@@ -35,6 +35,9 @@ bigAnimation = Animation(
 
 
 class Mario(EntityBase):
+    '''
+    플레이어인 마리오를 그리는 함수
+    '''
     def __init__(self, x, y, level, screen, dashboard, sound, gravity=0.8):
         super(Mario, self).__init__(x, y, gravity)
         self.camera = Camera(self.rect, self)
@@ -60,6 +63,9 @@ class Mario(EntityBase):
         self.pauseObj = Pause(screen, self, dashboard)
 
     def update(self):
+        '''
+        마리오의 모습을 업데이트 하는 함수
+        '''
         if self.invincibilityFrames > 0:
             self.invincibilityFrames -= 1
         self.updateTraits()
@@ -70,12 +76,18 @@ class Mario(EntityBase):
         self.input.checkForInput()
 
     def moveMario(self):
+        '''
+        게임 안에서 마리오의 위치를 변경하는 함수
+        '''
         self.rect.y += self.vel.y
         self.collision.checkY()
         self.rect.x += self.vel.x
         self.collision.checkX()
 
     def checkEntityCollision(self):
+        '''
+        마리오와 엔티티의 충돌 여부를 체크하는 함수
+        '''
         for ent in self.levelObj.entityList:
             collisionState = self.EntityCollider.check(ent)
             if collisionState.isColliding:
@@ -87,18 +99,35 @@ class Mario(EntityBase):
                     self._onCollisionWithMob(ent, collisionState)
 
     def _onCollisionWithItem(self, item):
+        '''
+        아이템과 충돌했을때 관여하는 함수
+
+        :param item: 충돌한 아이템 이름
+        '''
         self.levelObj.entityList.remove(item)
         self.dashboard.points += 100
         self.dashboard.coins += 1
         self.sound.play_sfx(self.sound.coin)
 
     def _onCollisionWithBlock(self, block):
+        '''
+        블록과 충돌했을때 관여하는 함수
+
+        :param block: 충돌한 불록 이름
+        '''
         if not block.triggered:
             self.dashboard.coins += 1
             self.sound.play_sfx(self.sound.bump)
         block.triggered = True
 
     def _onCollisionWithMob(self, mob, collisionState):
+        '''
+        몹과 충돌했을때 관여하는 함수
+
+        :param mob: 충돌한 몹 이름
+        :param collisionState: 충돌 상태 상태 판별(등딱지에 숨은 거북/아닌 거북 등)
+        :return:
+        '''
         if isinstance(mob, RedMushroom) and mob.alive:
             self.powerup(1)
             self.killEntity(mob)
@@ -136,9 +165,17 @@ class Mario(EntityBase):
                 self.sound.play_sfx(self.sound.pipe)
 
     def bounce(self):
+        '''
+        점프 상태를 업데이트하는 함수
+        '''
         self.traits["bounceTrait"].jump = True
 
     def killEntity(self, ent):
+        '''
+        앤티티를 죽였을때 동작하는 함수
+
+        :param ent: 죽인 엔티티 이름
+        '''
         if ent.__class__.__name__ != "Koopa":
             ent.alive = False
         else:
@@ -150,6 +187,9 @@ class Mario(EntityBase):
         self.dashboard.points += 100
 
     def gameOver(self):
+        '''
+        게임 오버가 됬을때 동작하는 함수
+        '''
         srf = pygame.Surface((640, 480))
         srf.set_colorkey((255, 255, 255), pygame.RLEACCEL)
         srf.set_alpha(128)
@@ -173,13 +213,27 @@ class Mario(EntityBase):
         self.restart = True
 
     def getPos(self):
+        '''
+        마리오의 위치를 가져오는 함수
+        '''
         return self.camera.x + self.rect.x, self.rect.y
 
     def setPos(self, x, y):
+        '''
+        마리오의 위치를 지정하는 함수
+
+        :param x: 마리오의 가로 위치
+        :param y: 마리오의 세로 위치
+        '''
         self.rect.x = x
         self.rect.y = y
         
     def powerup(self, powerupID):
+        '''
+        작은 마리오가 커질때 동작하는 함수
+
+        :param powerupID: 파워 단계
+        '''
         if self.powerUpState == 0:
             if powerupID == 1:
                 self.powerUpState = 1
