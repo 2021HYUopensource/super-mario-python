@@ -262,7 +262,6 @@ class Menu:
                     return -1
             else:
                 return -1
-
         res = sorted(res, key=cmp_to_key(comp))
         return res
 
