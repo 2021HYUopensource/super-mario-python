@@ -55,9 +55,9 @@ class Level:
             [self.addGoomba(x, y) for x, y in data["level"]["entities"]["Goomba"]]
             [self.addKoopa(x, y) for x, y in data["level"]["entities"]["Koopa"]]
             [self.addCoin(x, y) for x, y in data["level"]["entities"]["coin"]]
-            [self.addStar(x, y) for x, y in data["level"]["entities"]["star"]]
             [self.addCoinBrick(x, y) for x, y in data["level"]["entities"]["coinBrick"]]
             [self.addRandomBox(x, y, item) for x, y, item in data["level"]["entities"]["RandomBox"]]
+            [self.addStar(x, y) for x, y in data["level"]["entities"]["star"]]
         except:
             # if no entities in Level
             pass

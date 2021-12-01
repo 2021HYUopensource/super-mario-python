@@ -114,6 +114,9 @@
                 "RandomBox":[
                   [4, 3, "RedMushroom"],
                   [52, 2, "RedMushroom"]
+                ],
+                "star": [
+                  [54, 2]
                 ]
             }
 

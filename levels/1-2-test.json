@@ -60,7 +60,7 @@
 
         ],
         "coinBrick":[
-          [37,9]
+          [37,10]
         ],
         "coin":[
           [21,8],
@@ -95,7 +95,7 @@
           [9, 23]
         ],
         "RandomBox":[
-          [4, 3, "RedMushroom"],
+          [10, 10, "RedMushroom"],
           [52, 2, "RedMushroom"]
         ],
         "star": [
