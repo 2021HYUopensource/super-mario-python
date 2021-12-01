@@ -25,6 +25,7 @@ class Level:
         self.level = None
         self.levelLength = 0
         self.entityList = []
+        self.name = ''
 
     def loadLevel(self, levelname):
         '''
@@ -39,6 +40,7 @@ class Level:
             self.loadObjects(data)
             self.loadEntities(data)
             self.levelLength = data["length"]
+            self.name = levelname
 
     def loadEntities(self, data):
         '''

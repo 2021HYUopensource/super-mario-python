@@ -6,6 +6,7 @@ from classes.Collider import Collider
 from classes.EntityCollider import EntityCollider
 from classes.Input import Input
 from classes.Sprites import Sprites
+from classes.Win import Win
 from entities.EntityBase import EntityBase
 from entities.Mushroom import RedMushroom
 from traits.bounce import bounceTrait
@@ -58,9 +59,12 @@ class Mario(EntityBase):
         self.screen = screen
         self.EntityCollider = EntityCollider(self)
         self.dashboard = dashboard
+        self.over = False
         self.restart = False
         self.pause = False
+        self.win = False
         self.pauseObj = Pause(screen, self, dashboard)
+        self.winObj = Win(screen, self, dashboard, level)
 
     def update(self):
         '''
@@ -113,8 +117,11 @@ class Mario(EntityBase):
 
     def _onCollisionWithStar(self, star):
         self.levelObj.entityList.remove(star)
-        self.sound.play_sfx(self.sound.coin)
-
+        self.sound.play_sfx(self.sound.end)
+        self.win = True
+        self.pause = True
+        self.winObj.createBackgroundBlur()
+        self.winObj.update()
 
     def _onCollisionWithBlock(self, block):
         '''
@@ -222,7 +229,7 @@ class Mario(EntityBase):
         while self.sound.music_channel.get_busy():
             pygame.display.update()
             self.input.checkForInput()
-        self.restart = True
+        self.over = True
 
     def getPos(self):
         '''
