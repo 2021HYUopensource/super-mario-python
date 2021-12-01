@@ -113,6 +113,8 @@ class Mario(EntityBase):
 
     def _onCollisionWithStar(self, star):
         self.levelObj.entityList.remove(star)
+        self.sound.play_sfx(self.sound.coin)
+
 
     def _onCollisionWithBlock(self, block):
         '''

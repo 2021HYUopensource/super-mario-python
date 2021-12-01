@@ -24,6 +24,7 @@ class Sound:
         self.powerup = mixer.Sound('./sfx/powerup.ogg')
         self.powerup_appear = mixer.Sound('./sfx/powerup_appears.ogg')
         self.pipe = mixer.Sound('./sfx/pipe.ogg')
+        self.end = mixer.Sound('./sfx/smb_stage_clear.wav')
 
     def play_sfx(self, sfx):
         '''
