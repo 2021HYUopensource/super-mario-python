@@ -70,13 +70,14 @@ class Level:
             layers.append(
                 (
                         [
-                            Tile(self.sprites.spriteCollection.get("sky"), None)
+                            Tile(self.sprites.spriteCollection.get("sky"), None, 'sky')
                             for y in range(*data["level"]["layers"]["sky"]["y"])
                         ]
                         + [
                             Tile(
                                 self.sprites.spriteCollection.get("ground"),
                                 pygame.Rect(x * 32, (y - 1) * 32, 32, 32),
+                                'ground'
                             )
                             for y in range(*data["level"]["layers"]["ground"]["y"])
                         ]
@@ -98,11 +99,12 @@ class Level:
         for x, y, z in data["level"]["objects"]["pipe"]:
             self.addPipeSprite(x, y, z)
         for x, y in data["level"]["objects"]["sky"]:
-            self.level[y][x] = Tile(self.sprites.spriteCollection.get("sky"), None)
+            self.level[y][x] = Tile(self.sprites.spriteCollection.get("sky"), None, 'sky')
         for x, y in data["level"]["objects"]["ground"]:
             self.level[y][x] = Tile(
                 self.sprites.spriteCollection.get("ground"),
                 pygame.Rect(x * 32, y * 32, 32, 32),
+                'ground'
             )
 
     def updateEntities(self, cam):
@@ -155,7 +157,7 @@ class Level:
             for yOff in range(0, 2):
                 for xOff in range(0, 3):
                     self.level[y + yOff][x + xOff] = Tile(
-                        self.sprites.spriteCollection.get("cloud{}_{}".format(yOff + 1, xOff + 1)), None, )
+                        self.sprites.spriteCollection.get("cloud{}_{}".format(yOff + 1, xOff + 1)), None, 'cloud')
         except IndexError:
             return
 
@@ -176,20 +178,24 @@ class Level:
             self.level[y][x] = Tile(
                 self.sprites.spriteCollection.get("pipeL"),
                 pygame.Rect(x * 32, y * 32, 32, 32),
+                'pipel'
             )
             self.level[y][x + 1] = Tile(
                 self.sprites.spriteCollection.get("pipeR"),
                 pygame.Rect((x + 1) * 32, y * 32, 32, 32),
+                'piper'
             )
             # add pipe body
             for i in range(1, length + 20):
                 self.level[y + i][x] = Tile(
                     self.sprites.spriteCollection.get("pipe2L"),
                     pygame.Rect(x * 32, (y + i) * 32, 32, 32),
+                    'pipe2l'
                 )
                 self.level[y + i][x + 1] = Tile(
                     self.sprites.spriteCollection.get("pipe2R"),
                     pygame.Rect((x + 1) * 32, (y + i) * 32, 32, 32),
+                    'pipe2r'
                 )
         except IndexError:
             return
@@ -205,12 +211,12 @@ class Level:
         :raise IndexError: level 인덱스 범위를 넘길때 예외 발생
         '''
         try:
-            self.level[y][x] = Tile(self.sprites.spriteCollection.get("bush_1"), None)
+            self.level[y][x] = Tile(self.sprites.spriteCollection.get("bush_1"), None, 'bush1')
             self.level[y][x + 1] = Tile(
-                self.sprites.spriteCollection.get("bush_2"), None
+                self.sprites.spriteCollection.get("bush_2"), None, 'bush2'
             )
             self.level[y][x + 2] = Tile(
-                self.sprites.spriteCollection.get("bush_3"), None
+                self.sprites.spriteCollection.get("bush_3"), None, 'bush3'
             )
         except IndexError:
             return
@@ -224,7 +230,7 @@ class Level:
         :param y: 보여줄 세로 위치
         :type y: int
         '''
-        self.level[y][x] = Tile(None, pygame.Rect(x * 32, y * 32 - 1, 32, 32))
+        self.level[y][x] = Tile(None, pygame.Rect(x * 32, y * 32 - 1, 32, 32), 'coinbox')
         self.entityList.append(
             CoinBox(
                 self.screen,
@@ -247,7 +253,7 @@ class Level:
         :param item: 나오는 아이템 종류
         :type item: str
         '''
-        self.level[y][x] = Tile(None, pygame.Rect(x * 32, y * 32 - 1, 32, 32))
+        self.level[y][x] = Tile(None, pygame.Rect(x * 32, y * 32 - 1, 32, 32), 'randombox')
         self.entityList.append(
             RandomBox(
                 self.screen,
@@ -281,7 +287,7 @@ class Level:
         :param y: 보여줄 세로 위치
         :type y: int
         '''
-        self.level[y][x] = Tile(None, pygame.Rect(x * 32, y * 32 - 1, 32, 32))
+        self.level[y][x] = Tile(None, pygame.Rect(x * 32, y * 32 - 1, 32, 32), 'coinbrick')
         self.entityList.append(
             CoinBrick(
                 self.screen,
