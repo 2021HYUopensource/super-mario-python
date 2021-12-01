@@ -6,6 +6,7 @@ from classes.Collider import Collider
 from classes.EntityCollider import EntityCollider
 from classes.Input import Input
 from classes.Sprites import Sprites
+from classes.Win import Win
 from entities.EntityBase import EntityBase
 from entities.Mushroom import RedMushroom
 from traits.bounce import bounceTrait
@@ -40,7 +41,7 @@ class Mario(EntityBase):
     '''
     def __init__(self, x, y, level, screen, dashboard, sound, gravity=0.8):
         super(Mario, self).__init__(x, y, gravity)
-        self.camera = Camera(self.rect, self)
+        self.camera = Camera(self.rect, self, level.levelLength)
         self.sound = sound
         self.input = Input(self)
         self.inAir = False
@@ -58,9 +59,12 @@ class Mario(EntityBase):
         self.screen = screen
         self.EntityCollider = EntityCollider(self)
         self.dashboard = dashboard
+        self.over = False
         self.restart = False
         self.pause = False
+        self.win = False
         self.pauseObj = Pause(screen, self, dashboard)
+        self.winObj = Win(screen, self, dashboard, level)
 
     def update(self):
         '''
@@ -97,6 +101,8 @@ class Mario(EntityBase):
                     self._onCollisionWithBlock(ent)
                 elif ent.type == "Mob":
                     self._onCollisionWithMob(ent, collisionState)
+                elif ent.type == "Star":
+                    self._onCollisionWithStar(ent)
 
     def _onCollisionWithItem(self, item):
         '''
@@ -108,6 +114,14 @@ class Mario(EntityBase):
         self.dashboard.points += 100
         self.dashboard.coins += 1
         self.sound.play_sfx(self.sound.coin)
+
+    def _onCollisionWithStar(self, star):
+        self.levelObj.entityList.remove(star)
+        self.sound.play_sfx(self.sound.end)
+        self.win = True
+        self.pause = True
+        self.winObj.createBackgroundBlur()
+        self.winObj.update()
 
     def _onCollisionWithBlock(self, block):
         '''
@@ -130,19 +144,23 @@ class Mario(EntityBase):
         '''
         if isinstance(mob, RedMushroom) and mob.alive:
             self.powerup(1)
-            self.killEntity(mob)
+            self.killEntity(mob,True)
             self.sound.play_sfx(self.sound.powerup)
         elif collisionState.isTop and (mob.alive or mob.bouncing):
             self.sound.play_sfx(self.sound.stomp)
             self.rect.bottom = mob.rect.top
             self.bounce()
-            self.killEntity(mob)
+            if not mob.active and not mob.bouncing:
+                self.killEntity(mob, False)
+            else:
+                self.killEntity(mob, True)
         elif collisionState.isTop and mob.alive and not mob.active:
             self.sound.play_sfx(self.sound.stomp)
             self.rect.bottom = mob.rect.top
             mob.timer = 0
             self.bounce()
             mob.alive = False
+            print('now')
         elif collisionState.isColliding and mob.alive and not mob.active and not mob.bouncing:
             mob.bouncing = True
             if mob.rect.x < self.rect.x:
@@ -170,7 +188,7 @@ class Mario(EntityBase):
         '''
         self.traits["bounceTrait"].jump = True
 
-    def killEntity(self, ent):
+    def killEntity(self, ent, state):
         '''
         앤티티를 죽였을때 동작하는 함수
 
@@ -184,7 +202,9 @@ class Mario(EntityBase):
             ent.alive = True
             ent.active = False
             ent.bouncing = False
-        self.dashboard.points += 100
+        if state and not ent.already:
+            ent.already = True
+            self.dashboard.points += 100
 
     def gameOver(self):
         '''
@@ -210,7 +230,7 @@ class Mario(EntityBase):
         while self.sound.music_channel.get_busy():
             pygame.display.update()
             self.input.checkForInput()
-        self.restart = True
+        self.over = True
 
     def getPos(self):
         '''

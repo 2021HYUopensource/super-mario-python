@@ -2,6 +2,7 @@ import json
 import sys
 import os
 import pygame
+from functools import cmp_to_key
 
 from classes.Spritesheet import Spritesheet
 
@@ -248,6 +249,20 @@ class Menu:
         for f in files:
             res.append(os.path.split(f)[1].split(".")[0])
         self.levelCount = len(res)
+
+        def comp(x, y):
+            if x[0] > y[0]:
+                return 1
+            elif x[0] == y[0]:
+                if x[2] > y[2]:
+                    return 1
+                elif x[2] == y[2]:
+                    return 0
+                else:
+                    return -1
+            else:
+                return -1
+        res = sorted(res, key=cmp_to_key(comp))
         return res
 
     def checkInput(self):
@@ -296,7 +311,7 @@ class Menu:
                         self.dashboard.state = "start"
                         self.dashboard.time = 0
                         self.level.loadLevel(self.levelNames[self.currSelectedLevel-1])
-                        self.dashboard.levelName = self.levelNames[self.currSelectedLevel-1].split("Level")[1]
+                        self.dashboard.levelName = self.levelNames[self.currSelectedLevel-1]
                         self.start = True
                         return
                     if not self.inSettings:

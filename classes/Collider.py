@@ -5,6 +5,7 @@ class Collider:
     def __init__(self, entity, level):
         self.entity = entity
         self.level = level.level
+        self.level_ = level
         self.levelObj = level
         self.result = []
 

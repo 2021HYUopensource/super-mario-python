@@ -1,5 +1,5 @@
 {
-    "spriteSheetURL": "./img/Items.png",
+    "spriteSheetURL": "./img/items_white.png",
     "type":"animation",
     "sprites":[
         {
@@ -27,6 +27,33 @@
                 }
             ],
             "deltaTime":10,
+            "colorKey": -1
+        },
+        {
+            "name": "star",
+            "images": [
+                {
+                    "x": 0,
+                    "y": 3,
+                    "scale": 2
+                },
+                {
+                    "x": 1,
+                    "y": 3,
+                    "scale": 2
+                },
+                {
+                    "x": 2,
+                    "y": 3,
+                    "scale": 2
+                },
+                {
+                    "x": 3,
+                    "y": 3,
+                    "scale": 2
+                }
+            ],
+            "deltaTime": 10,
             "colorKey": -1
         }
     ]

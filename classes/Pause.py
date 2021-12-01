@@ -59,7 +59,7 @@ class Pause:
                     if self.state == 0:
                         self.entity.pause = False
                     elif self.state == 1:
-                        self.entity.restart = True
+                        self.entity.over = True
                 elif event.key == pygame.K_UP:
                     if self.state > 0:
                         self.state -= 1
