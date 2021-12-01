@@ -4,6 +4,7 @@ import pygame
 from classes.Sprites import Sprites
 from classes.Tile import Tile
 from entities.Coin import Coin
+from entities.Star import Star
 from entities.CoinBrick import CoinBrick
 from entities.Goomba import Goomba
 from entities.Mushroom import RedMushroom
@@ -52,6 +53,7 @@ class Level:
             [self.addGoomba(x, y) for x, y in data["level"]["entities"]["Goomba"]]
             [self.addKoopa(x, y) for x, y in data["level"]["entities"]["Koopa"]]
             [self.addCoin(x, y) for x, y in data["level"]["entities"]["coin"]]
+            [self.addStar(x, y) for x, y in data["level"]["entities"]["star"]]
             [self.addCoinBrick(x, y) for x, y in data["level"]["entities"]["coinBrick"]]
             [self.addRandomBox(x, y, item) for x, y, item in data["level"]["entities"]["RandomBox"]]
         except:
@@ -277,6 +279,17 @@ class Level:
         :type y: int
         '''
         self.entityList.append(Coin(self.screen, self.sprites.spriteCollection, x, y))
+
+    def addStar(self, x, y):
+        '''
+        스타 추가
+
+        :param x: 보여줄 가로 위치
+        :type x: int
+        :param y: 보여줄 세로 위치
+        :type y: int
+        '''
+        self.entityList.append(Star(self.screen, self.sprites.spriteCollection, x, y))
 
     def addCoinBrick(self, x, y):
         '''
