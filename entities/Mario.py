@@ -39,7 +39,7 @@ class Mario(EntityBase):
     '''
     플레이어인 마리오를 그리는 함수
     '''
-    def __init__(self, x, y, level, screen, dashboard, sound, gravity=0.8):
+    def __init__(self, x, y, level, screen, dashboard, sound, rl_mode, gravity=0.8):
         super(Mario, self).__init__(x, y, gravity)
         self.camera = Camera(self.rect, self, level.levelLength)
         self.sound = sound
@@ -48,6 +48,7 @@ class Mario(EntityBase):
         self.inJump = False
         self.powerUpState = 0
         self.invincibilityFrames = 0
+        self.rl_mode = rl_mode
         self.traits = {
             "jumpTrait": JumpTrait(self),
             "goTrait": GoTrait(smallAnimation, screen, self.camera, self),
@@ -120,8 +121,11 @@ class Mario(EntityBase):
         self.sound.play_sfx(self.sound.end)
         self.win = True
         self.pause = True
-        self.winObj.createBackgroundBlur()
-        self.winObj.update()
+        if self.rl_mode:
+            self.restart = True
+        else:
+            self.winObj.createBackgroundBlur()
+            self.winObj.update()
 
     def _onCollisionWithBlock(self, block):
         '''
@@ -214,7 +218,8 @@ class Mario(EntityBase):
         srf.set_colorkey((255, 255, 255), pygame.RLEACCEL)
         srf.set_alpha(128)
         self.sound.music_channel.stop()
-        self.sound.music_channel.play(self.sound.death)
+        if not self.rl_mode:
+            self.sound.music_channel.play(self.sound.death)
 
         for i in range(500, 20, -2):
             srf.fill((0, 0, 0))

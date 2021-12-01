@@ -15,32 +15,59 @@ def main():
     screen = pygame.display.set_mode(windowSize)
     max_frame_rate = 60
     dashboard = Dashboard("./img/font.png", 8, screen)
-    sound = Sound()
+    sound = Sound(False)
     level = Level(screen, sound, dashboard)
     menu = Menu(screen, dashboard, level, sound)
 
     while not menu.start:
         menu.update()
 
-    mario = Mario(0, 0, level, screen, dashboard, sound)
+    if menu.rl_mode:
+        max_frame_rate = 60
+        sound.rl_mode = True
+
+    mario = Mario(0, 0, level, screen, dashboard, sound, menu.rl_mode)
     clock = pygame.time.Clock()
 
-    while not mario.over:
+    while True:
+        if mario.over:
+            if menu.rl_mode and mario.rl_mode:
+                restart_name = level.name
+                rl_mode = menu.rl_mode
+                dashboard = Dashboard("./img/font.png", 8, screen)
+                sound = Sound(rl_mode)
+                level = Level(screen, sound, dashboard)
+                menu = Menu(screen, dashboard, level, sound)
+                menu.inChoosingLevel = False
+                menu.rl_mode = rl_mode
+                menu.dashboard.state = "start"
+                menu.dashboard.time = 0
+                menu.level.loadLevel(restart_name)
+                menu.dashboard.levelName = restart_name
+                menu.start = True
+                mario = Mario(0, 0, level, screen, dashboard, sound, menu.rl_mode)
+                clock = pygame.time.Clock()
+            else:
+                break
         pygame.display.set_caption("Super Mario running with {:d} FPS".format(int(clock.get_fps())))
         if mario.pause:
             if mario.win:
                 mario.winObj.update()
                 if mario.restart:
                     restart_name = level.name
+                    rl_mode = menu.rl_mode
+                    dashboard = Dashboard("./img/font.png", 8, screen)
+                    sound = Sound(rl_mode)
                     level = Level(screen, sound, dashboard)
                     menu = Menu(screen, dashboard, level, sound)
                     menu.inChoosingLevel = False
+                    menu.rl_mode = rl_mode
                     menu.dashboard.state = "start"
                     menu.dashboard.time = 0
                     menu.level.loadLevel(restart_name)
                     menu.dashboard.levelName = restart_name
                     menu.start = True
-                    mario = Mario(0, 0, level, screen, dashboard, sound)
+                    mario = Mario(0, 0, level, screen, dashboard, sound, menu.rl_mode)
                     clock = pygame.time.Clock()
             else:
                 mario.pauseObj.update()

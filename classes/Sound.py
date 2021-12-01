@@ -5,13 +5,14 @@ class Sound:
     '''
     사운드 재생에 관여하는 클래스
     '''
-    def __init__(self):
+    def __init__(self, rl_mode):
         self.music_channel = mixer.Channel(0)
         self.music_channel.set_volume(0.2)
         self.sfx_channel = mixer.Channel(1)
         self.sfx_channel.set_volume(0.2)
 
         self.allowSFX = True
+        self.rl_mode = rl_mode
 
         self.soundtrack = mixer.Sound("./sfx/main_theme.ogg")
         self.coin = mixer.Sound("./sfx/coin.ogg")
@@ -33,7 +34,7 @@ class Sound:
         :param sfx: 재생할 효과음 이름
         :type sfx: mixer.Sound
         '''
-        if self.allowSFX:
+        if self.allowSFX and not self.rl_mode:
             self.sfx_channel.play(sfx)
 
     def play_music(self, music):
@@ -43,4 +44,5 @@ class Sound:
         :param music: 재생할 배경음 이름
         :type music: mixer.Sound
         '''
-        self.music_channel.play(music)
+        if not self.rl_mode:
+            self.music_channel.play(music)
