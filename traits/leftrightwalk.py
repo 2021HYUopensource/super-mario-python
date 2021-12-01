@@ -5,7 +5,7 @@ from classes.Collider import Collider
 
 class LeftRightWalkTrait:
     def __init__(self, entity, level):
-        self.direction = random.choice([1])
+        self.direction = random.choice([-1, 1])
         self.entity = entity
         self.level = level
         self.collDetection = Collider(self.entity, level)

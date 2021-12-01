@@ -202,7 +202,8 @@ class Mario(EntityBase):
             ent.alive = True
             ent.active = False
             ent.bouncing = False
-        if state:
+        if state and not ent.already:
+            ent.already = True
             self.dashboard.points += 100
 
     def gameOver(self):

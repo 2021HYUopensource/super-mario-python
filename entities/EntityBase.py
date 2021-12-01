@@ -11,6 +11,7 @@ class EntityBase(object):
         self.traits = None
         self.alive = True
         self.active = True
+        self.already = False
         self.bouncing = False
         self.timeAfterDeath = 5
         self.timer = 0
