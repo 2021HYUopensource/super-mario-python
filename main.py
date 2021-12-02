@@ -7,6 +7,7 @@ from entities.Mario import Mario
 
 
 windowSize = 640, 480
+rl_repeat_time = 2
 
 
 def main():
@@ -23,15 +24,18 @@ def main():
         menu.update()
 
     if menu.rl_mode:
-        max_frame_rate = 60
+        max_frame_rate = 4
         sound.rl_mode = True
 
     mario = Mario(0, 0, level, screen, dashboard, sound, menu.rl_mode)
     clock = pygame.time.Clock()
 
+    count = 0
     while True:
         if mario.over:
             if menu.rl_mode and mario.rl_mode:
+                if count == rl_repeat_time:
+                    break
                 restart_name = level.name
                 rl_mode = menu.rl_mode
                 dashboard = Dashboard("./img/font.png", 8, screen)
@@ -47,6 +51,7 @@ def main():
                 menu.start = True
                 mario = Mario(0, 0, level, screen, dashboard, sound, menu.rl_mode)
                 clock = pygame.time.Clock()
+                count += 1
             else:
                 break
         pygame.display.set_caption("Super Mario running with {:d} FPS".format(int(clock.get_fps())))
@@ -69,6 +74,7 @@ def main():
                     menu.start = True
                     mario = Mario(0, 0, level, screen, dashboard, sound, menu.rl_mode)
                     clock = pygame.time.Clock()
+                    count += 1
             else:
                 mario.pauseObj.update()
         else:
