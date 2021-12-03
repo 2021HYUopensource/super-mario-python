@@ -5,6 +5,9 @@ from classes.Menu import Menu
 from classes.Sound import Sound
 from entities.Mario import Mario
 
+from RL_Agent.Agents.creator import create_agent_main_sys
+from classes.LearningEnv import SuperMario
+
 
 windowSize = 640, 480
 rl_repeat_time = 2
@@ -30,7 +33,7 @@ def main():
     mario = Mario(0, 12, level, screen, dashboard, sound, menu.rl_mode)
     clock = pygame.time.Clock()
 
-    count = 0
+    count = 1
     a = 0
     while True:
         if mario.over:
@@ -83,7 +86,10 @@ def main():
             dashboard.update()
             mario.update()
         pygame.display.update()
-        clock.tick_busy_loop(max_frame_rate)
+        if menu.rl_mode:
+            pygame.time.delay(10)
+        else:
+            clock.tick_busy_loop(max_frame_rate)
     return 'restart'
 
 

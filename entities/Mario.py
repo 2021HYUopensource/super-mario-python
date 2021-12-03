@@ -214,27 +214,28 @@ class Mario(EntityBase):
         '''
         게임 오버가 됬을때 동작하는 함수
         '''
-        srf = pygame.Surface((640, 480))
-        srf.set_colorkey((255, 255, 255), pygame.RLEACCEL)
-        srf.set_alpha(128)
-        self.sound.music_channel.stop()
         if not self.rl_mode:
-            self.sound.music_channel.play(self.sound.death)
+            srf = pygame.Surface((640, 480))
+            srf.set_colorkey((255, 255, 255), pygame.RLEACCEL)
+            srf.set_alpha(128)
+            self.sound.music_channel.stop()
+            if not self.rl_mode:
+                self.sound.music_channel.play(self.sound.death)
 
-        for i in range(500, 20, -2):
-            srf.fill((0, 0, 0))
-            pygame.draw.circle(
-                srf,
-                (255, 255, 255),
-                (int(self.camera.x + self.rect.x) + 16, self.rect.y + 16),
-                i,
-            )
-            self.screen.blit(srf, (0, 0))
-            pygame.display.update()
-            self.input.checkForInput()
-        while self.sound.music_channel.get_busy():
-            pygame.display.update()
-            self.input.checkForInput()
+            for i in range(500, 20, -2):
+                srf.fill((0, 0, 0))
+                pygame.draw.circle(
+                    srf,
+                    (255, 255, 255),
+                    (int(self.camera.x + self.rect.x) + 16, self.rect.y + 16),
+                    i,
+                )
+                self.screen.blit(srf, (0, 0))
+                pygame.display.update()
+                self.input.checkForInput()
+            while self.sound.music_channel.get_busy():
+                pygame.display.update()
+                self.input.checkForInput()
         self.over = True
 
     def getPos(self):

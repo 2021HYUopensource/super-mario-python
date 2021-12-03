@@ -1,6 +1,6 @@
-from DQN import agent
+from ..DQN import agent
 import numpy as np
-from utils.img_preprocessing import make_stack
+from ..utils.img_preprocessing import make_stack
 from tensorboardX import SummaryWriter
 from collections import deque
 
@@ -29,7 +29,6 @@ class DQN_main_system:
         return onehot
 
     def train(self,max_epi,target_score,load_model=False):
-
         summary = SummaryWriter()
 
         if(load_model):

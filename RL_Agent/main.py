@@ -1,19 +1,13 @@
 from Agents.creator import create_agent_main_sys
-import gym
 import numpy as np
 from utils.img_preprocessing import make_stack
-import cv2
+from ..classes.LearningEnv import SuperMario
 
-env = gym.make('CarRacing-v0')
+env = SuperMario.make()
 
-#https://github.com/andywu0913/OpenAI-GYM-CarRacing-DQN/blob/master/CarRacingDQNAgent.py
-env = gym.make('BreakoutDeterministic-v4')
+# TODO: state size = 84 * 84 * 4
 
-state = env.reset()
-env.render()
-state = [state for _ in range(3)]
-state = make_stack(np.asarray(state))
+# TODO: 내가 만든 환경 적용 - env
+ppo = create_agent_main_sys("PPO",env,env.state_shape(),4,True)
 
-dqn = create_agent_main_sys("PPO",env,state.shape,4,True)
-
-dqn.train(10000,30)
+ppo.train(10000, 10000000)
