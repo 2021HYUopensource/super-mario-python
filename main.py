@@ -27,10 +27,11 @@ def main():
         max_frame_rate = 4
         sound.rl_mode = True
 
-    mario = Mario(0, 0, level, screen, dashboard, sound, menu.rl_mode)
+    mario = Mario(0, 12, level, screen, dashboard, sound, menu.rl_mode)
     clock = pygame.time.Clock()
 
     count = 0
+    a = 0
     while True:
         if mario.over:
             if menu.rl_mode and mario.rl_mode:
@@ -49,7 +50,7 @@ def main():
                 menu.level.loadLevel(restart_name)
                 menu.dashboard.levelName = restart_name
                 menu.start = True
-                mario = Mario(0, 0, level, screen, dashboard, sound, menu.rl_mode)
+                mario = Mario(0, 12, level, screen, dashboard, sound, menu.rl_mode)
                 clock = pygame.time.Clock()
                 count += 1
             else:
@@ -72,7 +73,7 @@ def main():
                     menu.level.loadLevel(restart_name)
                     menu.dashboard.levelName = restart_name
                     menu.start = True
-                    mario = Mario(0, 0, level, screen, dashboard, sound, menu.rl_mode)
+                    mario = Mario(0, 12, level, screen, dashboard, sound, menu.rl_mode)
                     clock = pygame.time.Clock()
                     count += 1
             else:
@@ -82,7 +83,7 @@ def main():
             dashboard.update()
             mario.update()
         pygame.display.update()
-        clock.tick(max_frame_rate)
+        clock.tick_busy_loop(max_frame_rate)
     return 'restart'
 
 

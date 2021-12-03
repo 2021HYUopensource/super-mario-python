@@ -3,7 +3,7 @@ import cv2
 
 class SuperMarioEnv():
     def __init__(self):
-        self.action_space_list = [['NOOP'], ['right'], ['right', 'A'], ['right', 'B'], ['right', 'A', 'B'], ['A'], ['left']]
+        self.action_space_list = [['NOOP'], ['right'], ['up'], ['left'], ['up', 'left'], ['up', 'right']]
         self.isInit = True
 
     def reset(self):
