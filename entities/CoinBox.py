@@ -5,6 +5,9 @@ from entities.Item import Item
 
 
 class CoinBox(EntityBase):
+    '''
+    코인박스 엔티티에 관한 클래스
+    '''
     def __init__(self, screen, spriteCollection, x, y, sound, dashboard, gravity=0):
         super(CoinBox, self).__init__(x, y, gravity)
         self.screen = screen
@@ -20,6 +23,9 @@ class CoinBox(EntityBase):
         self.item = Item(spriteCollection, screen, self.rect.x, self.rect.y)
 
     def update(self, cam):
+        '''
+        코인박스의 모습을 업데이트 하는 함수
+        '''
         if self.alive and not self.triggered:
             self.animation.update()
         else:
