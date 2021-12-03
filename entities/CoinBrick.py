@@ -5,6 +5,9 @@ from entities.Item import Item
 
 
 class CoinBrick(EntityBase):
+    '''
+    코인벽돌 엔티티에 관한 클래스
+    '''
     def __init__(self, screen, spriteCollection, x, y, sound, dashboard, gravity=0):
         super(CoinBrick, self).__init__(x, y, gravity)
         self.screen = screen
@@ -17,6 +20,9 @@ class CoinBrick(EntityBase):
         self.item = Item(spriteCollection, screen, self.rect.x, self.rect.y)
 
     def update(self, cam):
+        '''
+        코인벽돌의 모습을 업데이트하는 함수
+        '''
         if not self.alive or self.triggered:
             self.image = self.spriteCollection.get("empty").image
             self.item.spawnCoin(cam, self.sound, self.dashboard)
