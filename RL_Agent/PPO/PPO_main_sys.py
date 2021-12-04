@@ -29,7 +29,7 @@ class PPO_main_system:
         self.env = env
         self.state_shape = state_shape
         self.action_size = action_size
-        self.Agent = PPO_Agent(state_shape, action_size,verbose)
+        self.Agent = PPO_Agent(state_shape, action_size, verbose)
         self.verbose = verbose
 
     def _action_one_hot(self,action):
@@ -79,23 +79,24 @@ class PPO_main_system:
 
             tot_reward = 0
             while not done:
-                reward = 0
                 action, action_onehot, act_prob = self.Agent.get_act(state)
-                next_state, reward, done = self.env.step(action_onehot)
+                print(action, action_onehot, act_prob)
+                next_state, reward, done = self.env.step(action)
+                next_state = make_stack(np.asarray(next_state))
 
                 tot_reward += reward
-                self.Agent.add_buffer(state, action_onehot, reward, next_state, act_prob,done)
+                self.Agent.add_buffer(state, action_onehot, reward, next_state, act_prob, done)
                 self.Agent.train()
                 state = next_state
 
-            if(self.verbose):
+            if self.verbose:
                 print(f"log >> {epi} epi fin.   score : {tot_reward}")
 
             summary.add_scalar('reward', tot_reward, epi)
-            if(tot_reward >= target_score):
+            if tot_reward >= target_score:
                 break_counter += 1
-                if(break_counter >= 5):
-                    if(self.verbose):
+                if break_counter >= 5:
+                    if self.verbose:
                         print("log >> train fin.")
                     break
             else:

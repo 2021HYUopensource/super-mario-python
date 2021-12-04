@@ -67,6 +67,8 @@ class Mario(EntityBase):
         self.pauseObj = Pause(screen, self, dashboard)
         self.winObj = Win(screen, self, dashboard, level)
 
+        self.count_good = 0
+
     def update(self):
         '''
         마리오의 모습을 업데이트 하는 함수
@@ -78,7 +80,7 @@ class Mario(EntityBase):
         self.camera.move()
         self.applyGravity()
         self.checkEntityCollision()
-        self.input.checkForInput()
+        self.input.checkForInput(self.rl_mode)
 
     def moveMario(self):
         '''
@@ -115,6 +117,7 @@ class Mario(EntityBase):
         self.dashboard.points += 100
         self.dashboard.coins += 1
         self.sound.play_sfx(self.sound.coin)
+        self.count_good += 1
 
     def _onCollisionWithStar(self, star):
         self.levelObj.entityList.remove(star)
@@ -136,6 +139,7 @@ class Mario(EntityBase):
         if not block.triggered:
             self.dashboard.coins += 1
             self.sound.play_sfx(self.sound.bump)
+            self.count_good += 1
         block.triggered = True
 
     def _onCollisionWithMob(self, mob, collisionState):
@@ -164,7 +168,6 @@ class Mario(EntityBase):
             mob.timer = 0
             self.bounce()
             mob.alive = False
-            print('now')
         elif collisionState.isColliding and mob.alive and not mob.active and not mob.bouncing:
             mob.bouncing = True
             if mob.rect.x < self.rect.x:
@@ -209,6 +212,7 @@ class Mario(EntityBase):
         if state and not ent.already:
             ent.already = True
             self.dashboard.points += 100
+            self.count_good += 1
 
     def gameOver(self):
         '''
@@ -232,10 +236,10 @@ class Mario(EntityBase):
                 )
                 self.screen.blit(srf, (0, 0))
                 pygame.display.update()
-                self.input.checkForInput()
+                self.input.checkForInput(self.rl_mode)
             while self.sound.music_channel.get_busy():
                 pygame.display.update()
-                self.input.checkForInput()
+                self.input.checkForInput(self.rl_mode)
         self.over = True
 
     def getPos(self):

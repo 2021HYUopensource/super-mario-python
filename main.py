@@ -12,13 +12,13 @@ import cv2
 windowSize = 640, 480
 rl_repeat_time = 2
 max_frame_rate = 60
-action_size = 4
+img_count = 4
 
 
 def game_rl_mode(screen, menu, sound, level, dashboard):
     sound.rl_mode = True
-    env = SuperMario().make(action_size)
-    ppo = create_agent_main_sys("PPO", env, env.state_shape(), action_size, True)
+    env = SuperMario().make(img_count)
+    ppo = create_agent_main_sys("PPO", env, env.state_shape(), env.action_spcae(), True)
     ppo.train(10000, 10000000, screen, menu, sound, level, dashboard)
     return 'restart'
 
