@@ -17,11 +17,9 @@ class SuperMarioEnv():
     def calculate_reward(self, x_diff, good_act, is_death, is_win):
         reward = 0
         if x_diff > 0:
-            reward += 0.3
+            reward += 0.1
         elif x_diff < 0:
-            reward -= 0.2
-        else:
-            reward -= 0.2
+            reward -= 0.1
         reward += good_act * 0.1
         if is_win:
             reward += 15

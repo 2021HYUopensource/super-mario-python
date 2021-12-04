@@ -35,7 +35,6 @@ class PPO_main_system:
     def _action_one_hot(self,action):
         onehot = np.zeros(self.action_size)
         onehot[action] = 1
-
         return onehot
 
     def __restart(self, screen, menu, sound, level, dashboard, mario):
@@ -53,7 +52,6 @@ class PPO_main_system:
         menu.dashboard.levelName = restart_name
         menu.start = True
         mario = Mario(0, 12, level, screen, dashboard, sound, menu.rl_mode)
-
         return screen, menu, sound, level, dashboard, mario
 
     def train(self,max_epi,target_score, screen, menu, sound, level, dashboard):
@@ -75,7 +73,7 @@ class PPO_main_system:
 
             screen, menu, sound, level, dashboard, mario = self.__restart(screen, menu, sound, level, dashboard, mario)
             state = self.env.reset(screen, menu, sound, level, dashboard, mario)
-            state = make_stack(np.asarray(state)) # TODO: 전처리만 뜯어 쓰기
+            state = make_stack(np.asarray(state))
 
             tot_reward = 0
             while not done:
@@ -101,30 +99,3 @@ class PPO_main_system:
                     break
             else:
                 break_counter = 0
-
-        return
-
-
-        count = 1
-        while True:
-            if mario.over:
-                if count == max_epi:
-                    break
-            pygame.display.set_caption("Super Mario running with {:d} FPS".format(int(clock.get_fps())))
-            if mario.pause:
-                if mario.win:
-                    mario.winObj.update()
-                    if mario.restart:
-                        pass
-                else:
-                    mario.pauseObj.update()
-                continue
-            else:
-                if len(menu.state_imgs) != -1:
-                    level.drawLevel(mario.camera)
-                    dashboard.update()
-                    mario.update()
-            if len(menu.state_imgs) != -1:
-                pass
-            else:
-                continue
