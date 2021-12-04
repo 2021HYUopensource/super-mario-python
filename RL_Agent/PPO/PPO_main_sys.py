@@ -4,24 +4,47 @@ import numpy as np
 import datetime
 import os
 import sys
-from utils.img_preprocessing import make_stack
+from utils.img_preprocessing import make_stack,prep
 from tensorboardX import SummaryWriter
 from collections import deque
 
-def create_ppo_main_sys(env,state_shape, action_size,verbose):
+ppo_def_param = {
+    "learning_rate": 0.003,
+    "loss_clipping": 0.2,
+    "entropy_loss": 0.001,
+    "epoch": 10,
+    "gamma": 0.99,
+    "lmbda": 0.95,
+    "batch_size": 1000
+}
 
-    main_sys = PPO_main_system(env,state_shape,action_size,verbose)
+
+def create_ppo_main_sys(env,state_shape, action_size,verbose,param):
+    '''
+
+    :param env: 학습에 사용할 환경 오브젝트
+    :param state_shape: observation shape (3D)
+    :param action_size: action space size (1D)
+    :param verbose: 로그를 표시할 지 여부 (bool)
+    :param param: 모델 하이퍼 파라미터(dict)
+    :return: (object) ppo_main_system
+    '''
+    for key in ppo_def_param.keys():
+        if not key in param:
+            param[key] = ppo_def_param[key]
+
+    main_sys = PPO_main_system(env,state_shape,action_size,verbose,param)
 
     return main_sys
 
 
 class PPO_main_system:
 
-    def __init__(self, env, state_shape, action_size,verbose):
+    def __init__(self, env, state_shape, action_size,verbose,param):
         self.env = env
         self.state_shape = state_shape
         self.action_size = action_size
-        self.Agent = PPO_Agent(state_shape, action_size,verbose)
+        self.Agent = PPO_Agent(state_shape, action_size,verbose,param)
         self.verbose = verbose
 
     def _action_one_hot(self,action):
@@ -30,44 +53,29 @@ class PPO_main_system:
 
         return onehot
 
-    def train(self,max_epi,target_score):
+    def train(self,max_epi,load_model = False):
 
         summary = SummaryWriter()
 
-        break_counter = 0
+        if(load_model):
+            self.Agent.load_model()
+
         for epi in range(max_epi):
-            frame_counter = 0
-            bad_status = 0
             done = False
             state = self.env.reset()
+            state = prep(state)
             self.env.render()
-            state = [state for _ in range(3)]
-            state = make_stack(np.asarray(state))
             tot_reward = 0
 
             while not done:
                 self.env.render()
-                reward = 0
                 action,action_onehot,act_prob = self.Agent.get_act(state)
-                next_state_list = []
-                for i in range(3):
-                    next_state, r, done, _ = self.env.step(action)
-                    next_state_list.append(next_state)
-                    reward += r
-
-                if(frame_counter >= 30 and reward == 0):
-                    bad_status += 1
-                    if(bad_status >= 60):
-                        print("bad status now, break")
-                        break
-                else:
-                    bad_status = 0
-                next_state = make_stack(np.asarray(next_state_list))
+                next_state, reward, done, _ = self.env.step(action)
+                next_state = prep(next_state)
                 tot_reward += reward
                 self.Agent.add_buffer(state, action_onehot, reward, next_state, act_prob,done)
                 self.Agent.train()
                 state = next_state
-                frame_counter += 1
 
 
 
@@ -76,20 +84,36 @@ class PPO_main_system:
 
             summary.add_scalar('reward', tot_reward, epi)
 
-            if(tot_reward >= target_score):
-                break_counter += 1
 
-                if(break_counter >= 5):
+    def test(self,max_epi,load_model = True):
 
-                    if(self.verbose):
 
-                        print("log >> train fin.")
+        if(load_model):
+            self.Agent.load_model()
 
-                    break
+        rewards = []
+        for epi in range(max_epi):
 
-            else:
+            done = False
+            state = self.env.reset()
+            state = prep(state)
+            self.env.render()
+            tot_reward = 0
 
-                break_counter = 0
+            while not done:
+                self.env.render()
+                action,action_onehot,act_prob = self.Agent.evaluate_get_act_(state)
+                next_state, reward, done, _ = self.env.step(action)
+                next_state = prep(next_state)
+                tot_reward += reward
+                state = next_state
+
+            rewards.append(tot_reward)
+
+            if(self.verbose):
+                print(f"log >> {epi} epi fin.   score : {tot_reward}")
+
+        print(f"average score :{sum(rewards)/max_epi}")
 
 
 
