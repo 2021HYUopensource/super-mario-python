@@ -15,7 +15,12 @@ class Menu:
         self.screen = screen
         self.sound = sound
         self.start = False
+
         self.rl_mode = False
+        self.isStart = False
+        self.isAllState = False
+        self.state_imgs = []
+
         self.inSettings = False
         self.state = 0
         self.level = level

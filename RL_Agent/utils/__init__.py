@@ -1,1 +1,1 @@
-from utils.img_preprocessing import *
+from ..utils.img_preprocessing import *

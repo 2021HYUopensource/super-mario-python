@@ -8,6 +8,13 @@ import sys
 from ..utils.img_preprocessing import make_stack
 from tensorboardX import SummaryWriter
 from collections import deque
+import pygame
+from classes.Dashboard import Dashboard
+from classes.Level import Level
+from classes.Menu import Menu
+from classes.Sound import Sound
+from entities.Mario import Mario
+import cv2
 
 def create_ppo_main_sys(env,state_shape, action_size,verbose):
     main_sys = PPO_main_system(env,state_shape,action_size,verbose)
@@ -31,7 +38,25 @@ class PPO_main_system:
 
         return onehot
 
-    def train(self,max_epi,target_score):
+    def __restart(self, screen, menu, sound, level, dashboard, mario):
+        restart_name = level.name
+        rl_mode = menu.rl_mode
+        dashboard = Dashboard("./img/font.png", 8, screen)
+        sound = Sound(rl_mode)
+        level = Level(screen, sound, dashboard)
+        menu = Menu(screen, dashboard, level, sound)
+        menu.inChoosingLevel = False
+        menu.rl_mode = rl_mode
+        menu.dashboard.state = "start"
+        menu.dashboard.time = 0
+        menu.level.loadLevel(restart_name)
+        menu.dashboard.levelName = restart_name
+        menu.start = True
+        mario = Mario(0, 12, level, screen, dashboard, sound, menu.rl_mode)
+
+        return screen, menu, sound, level, dashboard, mario
+
+    def train(self,max_epi,target_score, screen, menu, sound, level, dashboard):
         '''
         학습 시작
 
@@ -40,29 +65,28 @@ class PPO_main_system:
         :param target_score: 목표 점수
         :type target_score: int
         '''
+
+        mario = Mario(0, 12, level, screen, dashboard, sound, menu.rl_mode)
         summary = SummaryWriter()
 
         break_counter = 0
         for epi in range(max_epi):
-            frame_counter = 0
             done = False
-            state = self.env.reset()
-            state = [state for _ in range(3)]
-            state = make_stack(np.asarray(state)) # TODO: 전처리만 뜯어 쓰기
-            tot_reward = 0
 
+            screen, menu, sound, level, dashboard, mario = self.__restart(screen, menu, sound, level, dashboard, mario)
+            state = self.env.reset(screen, menu, sound, level, dashboard, mario)
+            state = make_stack(np.asarray(state)) # TODO: 전처리만 뜯어 쓰기
+
+            tot_reward = 0
             while not done:
                 reward = 0
-                action,action_onehot,act_prob = self.Agent.get_act(state)
-                next_state_list = []
-                # TODO: step만 사용
-                next_state, reward, done = self.env.step(action)
+                action, action_onehot, act_prob = self.Agent.get_act(state)
+                next_state, reward, done = self.env.step(action_onehot)
 
                 tot_reward += reward
                 self.Agent.add_buffer(state, action_onehot, reward, next_state, act_prob,done)
                 self.Agent.train()
                 state = next_state
-                frame_counter += 1
 
             if(self.verbose):
                 print(f"log >> {epi} epi fin.   score : {tot_reward}")
@@ -77,5 +101,29 @@ class PPO_main_system:
             else:
                 break_counter = 0
 
+        return
 
 
+        count = 1
+        while True:
+            if mario.over:
+                if count == max_epi:
+                    break
+            pygame.display.set_caption("Super Mario running with {:d} FPS".format(int(clock.get_fps())))
+            if mario.pause:
+                if mario.win:
+                    mario.winObj.update()
+                    if mario.restart:
+                        pass
+                else:
+                    mario.pauseObj.update()
+                continue
+            else:
+                if len(menu.state_imgs) != -1:
+                    level.drawLevel(mario.camera)
+                    dashboard.update()
+                    mario.update()
+            if len(menu.state_imgs) != -1:
+                pass
+            else:
+                continue
