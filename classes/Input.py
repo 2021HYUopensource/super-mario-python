@@ -25,6 +25,10 @@ class Input:
         if rl_mode:
             for event in events:
                 if event.type == pygame.KEYDOWN:
+                    if event.mod == KMOD_SHIFT:
+                        self.entity.traits['goTrait'].boost = True
+                    else:
+                        self.entity.traits['goTrait'].boost = False
                     if event.key == pygame.K_LEFT:
                         self.entity.traits["goTrait"].direction = -1
                     elif event.key == pygame.K_RIGHT:

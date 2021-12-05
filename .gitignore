@@ -5,3 +5,5 @@ settings.json
 .idea/
 .venv/
 *.DS_Store
+_actor/
+_critic/

@@ -5,13 +5,15 @@ from pygame.locals import *
 
 class SuperMarioEnv():
     def __init__(self, img_count):
-        self.action_space_list = [['NOOP'], ['right'], ['up'], ['left'], ['up', 'left'], ['up', 'right']]
+        self.action_space_list = [['NOOP'], ['right'], ['up'], ['left'], ['up', 'left'], ['up', 'right'],
+                                  ['right', 'shift'], ['left', 'shift'], ['up', 'left', 'shift'], ['up', 'right', 'shift']]
         self.screen = None
         self.menu = None
         self.sound = None
         self.level = None
         self.dashboard = None
         self.mario = None
+        self.prev_x = 0
         self.img_count = img_count
 
     def calculate_reward(self, x_diff, good_act, is_death, is_win):
@@ -62,7 +64,8 @@ class SuperMarioEnv():
                     for _ in range(self.img_count - i - 1):
                         state_imgs.append(last_img.copy())
                 break
-        self.prev_x = self.mario.rect.x
+        if self.mario.rect.x > self.prev_x:
+            self.prev_x = self.mario.rect.x
         self.mario.count_good = 0
         print(reward_total)
         return np.asarray(state_imgs), reward_total
@@ -98,6 +101,16 @@ class SuperMarioEnv():
         elif action == 5:
             newevent.append(pygame.event.Event(KEYDOWN, key=K_SPACE, mod=KMOD_NONE))
             newevent.append(pygame.event.Event(KEYDOWN, key=K_RIGHT, mod=KMOD_NONE))
+        elif action == 6:
+            newevent.append(pygame.event.Event(KEYDOWN, key=K_RIGHT, mod=KMOD_SHIFT))
+        elif action == 7:
+            newevent.append(pygame.event.Event(KEYDOWN, key=K_LEFT, mod=KMOD_SHIFT))
+        elif action == 8:
+            newevent.append(pygame.event.Event(KEYDOWN, key=K_SPACE, mod=KMOD_NONE))
+            newevent.append(pygame.event.Event(KEYDOWN, key=K_LEFT, mod=KMOD_SHIFT))
+        elif action == 9:
+            newevent.append(pygame.event.Event(KEYDOWN, key=K_SPACE, mod=KMOD_NONE))
+            newevent.append(pygame.event.Event(KEYDOWN, key=K_RIGHT, mod=KMOD_SHIFT))
 
         state_imgs, reward_total = self.get_screen(newevent, False)
 
