@@ -39,7 +39,7 @@ class Mario(EntityBase):
     '''
     플레이어인 마리오를 그리는 함수
     '''
-    def __init__(self, x, y, level, screen, dashboard, sound, gravity=0.8):
+    def __init__(self, x, y, level, screen, dashboard, sound, rl_mode, gravity=0.8):
         super(Mario, self).__init__(x, y, gravity)
         self.camera = Camera(self.rect, self, level.levelLength)
         self.sound = sound
@@ -48,6 +48,7 @@ class Mario(EntityBase):
         self.inJump = False
         self.powerUpState = 0
         self.invincibilityFrames = 0
+        self.rl_mode = rl_mode
         self.traits = {
             "jumpTrait": JumpTrait(self),
             "goTrait": GoTrait(smallAnimation, screen, self.camera, self),
@@ -66,6 +67,8 @@ class Mario(EntityBase):
         self.pauseObj = Pause(screen, self, dashboard)
         self.winObj = Win(screen, self, dashboard, level)
 
+        self.count_good = 0
+
     def update(self):
         '''
         마리오의 모습을 업데이트 하는 함수
@@ -77,7 +80,7 @@ class Mario(EntityBase):
         self.camera.move()
         self.applyGravity()
         self.checkEntityCollision()
-        self.input.checkForInput()
+        self.input.checkForInput(self.rl_mode)
 
     def moveMario(self):
         '''
@@ -114,14 +117,18 @@ class Mario(EntityBase):
         self.dashboard.points += 100
         self.dashboard.coins += 1
         self.sound.play_sfx(self.sound.coin)
+        self.count_good += 1
 
     def _onCollisionWithStar(self, star):
         self.levelObj.entityList.remove(star)
         self.sound.play_sfx(self.sound.end)
         self.win = True
         self.pause = True
-        self.winObj.createBackgroundBlur()
-        self.winObj.update()
+        if self.rl_mode:
+            self.restart = True
+        else:
+            self.winObj.createBackgroundBlur()
+            self.winObj.update()
 
     def _onCollisionWithBlock(self, block):
         '''
@@ -132,6 +139,7 @@ class Mario(EntityBase):
         if not block.triggered:
             self.dashboard.coins += 1
             self.sound.play_sfx(self.sound.bump)
+            self.count_good += 1
         block.triggered = True
 
     def _onCollisionWithMob(self, mob, collisionState):
@@ -160,7 +168,6 @@ class Mario(EntityBase):
             mob.timer = 0
             self.bounce()
             mob.alive = False
-            print('now')
         elif collisionState.isColliding and mob.alive and not mob.active and not mob.bouncing:
             mob.bouncing = True
             if mob.rect.x < self.rect.x:
@@ -205,31 +212,34 @@ class Mario(EntityBase):
         if state and not ent.already:
             ent.already = True
             self.dashboard.points += 100
+            self.count_good += 1
 
     def gameOver(self):
         '''
         게임 오버가 됬을때 동작하는 함수
         '''
-        srf = pygame.Surface((640, 480))
-        srf.set_colorkey((255, 255, 255), pygame.RLEACCEL)
-        srf.set_alpha(128)
-        self.sound.music_channel.stop()
-        self.sound.music_channel.play(self.sound.death)
+        if not self.rl_mode:
+            srf = pygame.Surface((640, 480))
+            srf.set_colorkey((255, 255, 255), pygame.RLEACCEL)
+            srf.set_alpha(128)
+            self.sound.music_channel.stop()
+            if not self.rl_mode:
+                self.sound.music_channel.play(self.sound.death)
 
-        for i in range(500, 20, -2):
-            srf.fill((0, 0, 0))
-            pygame.draw.circle(
-                srf,
-                (255, 255, 255),
-                (int(self.camera.x + self.rect.x) + 16, self.rect.y + 16),
-                i,
-            )
-            self.screen.blit(srf, (0, 0))
-            pygame.display.update()
-            self.input.checkForInput()
-        while self.sound.music_channel.get_busy():
-            pygame.display.update()
-            self.input.checkForInput()
+            for i in range(500, 20, -2):
+                srf.fill((0, 0, 0))
+                pygame.draw.circle(
+                    srf,
+                    (255, 255, 255),
+                    (int(self.camera.x + self.rect.x) + 16, self.rect.y + 16),
+                    i,
+                )
+                self.screen.blit(srf, (0, 0))
+                pygame.display.update()
+                self.input.checkForInput(self.rl_mode)
+            while self.sound.music_channel.get_busy():
+                pygame.display.update()
+                self.input.checkForInput(self.rl_mode)
         self.over = True
 
     def getPos(self):

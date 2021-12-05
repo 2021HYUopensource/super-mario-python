@@ -15,6 +15,12 @@ class Menu:
         self.screen = screen
         self.sound = sound
         self.start = False
+
+        self.rl_mode = False
+        self.isStart = False
+        self.isAllState = False
+        self.state_imgs = []
+
         self.inSettings = False
         self.state = 0
         self.level = level
@@ -75,6 +81,11 @@ class Menu:
             self.screen.blit(self.menu_dot, (145, 353))
             self.screen.blit(self.menu_dot2, (145, 273))
             self.screen.blit(self.menu_dot2, (145, 313))
+        elif self.state == 3:
+            self.screen.blit(self.menu_dot, (145, 393))
+            self.screen.blit(self.menu_dot2, (145, 353))
+            self.screen.blit(self.menu_dot2, (145, 273))
+            self.screen.blit(self.menu_dot2, (145, 313))
 
     def loadSettings(self, url):
         '''
@@ -123,6 +134,7 @@ class Menu:
         self.dashboard.drawText("CHOOSE LEVEL", 180, 280, 24)
         self.dashboard.drawText("SETTINGS", 180, 320, 24)
         self.dashboard.drawText("EXIT", 180, 360, 24)
+        self.dashboard.drawText("RL", 180, 400, 24)
 
     def drawMenuBackground(self, withBanner=True):
         '''
@@ -295,7 +307,7 @@ class Menu:
                         if self.currSelectedLevel+3 <= self.levelCount:
                             self.currSelectedLevel += 3
                             self.drawLevelChooser()
-                    if self.state < 2:
+                    if self.state < 3:
                         self.state += 1
                 elif event.key == pygame.K_LEFT or event.key == pygame.K_h:
                     if self.currSelectedLevel > 1:
@@ -323,6 +335,14 @@ class Menu:
                         elif self.state == 2:
                             pygame.quit()
                             sys.exit()
+                        elif self.state == 3:
+                            self.inChoosingLevel = False
+                            self.dashboard.state = "start"
+                            self.dashboard.time = 0
+                            self.level.loadLevel('1-2-test')
+                            self.dashboard.levelName = '1-2-test'
+                            self.start = True
+                            self.rl_mode = True
                     else:
                         if self.state == 0:
                             if self.music:
