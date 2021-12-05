@@ -16,8 +16,33 @@ from classes.Sound import Sound
 from entities.Mario import Mario
 import cv2
 
+ppo_def_param = {
+    "learning_rate": 0.003,
+    "loss_clipping": 0.2,
+    "entropy_loss": 0.001,
+    "epoch": 10,
+    "gamma": 0.99,
+    "lmbda": 0.95,
+    "batch_size": 1000
+}
+
+
 def create_ppo_main_sys(env,state_shape, action_size,verbose):
+    '''
+
+    :param env: 학습에 사용할 환경 오브젝트
+    :param state_shape: observation shape (3D)
+    :param action_size: action space size (1D)
+    :param verbose: 로그를 표시할 지 여부 (bool)
+    :param param: 모델 하이퍼 파라미터(dict)
+    :return: (object) ppo_main_system
+    '''
+    # for key in ppo_def_param.keys():
+    #     if not key in param:
+    #         param[key] = ppo_def_param[key]
+
     main_sys = PPO_main_system(env,state_shape,action_size,verbose)
+
     return main_sys
 
 
@@ -29,7 +54,7 @@ class PPO_main_system:
         self.env = env
         self.state_shape = state_shape
         self.action_size = action_size
-        self.Agent = PPO_Agent(state_shape, action_size, verbose)
+        self.Agent = PPO_Agent(state_shape, action_size, verbose, ppo_def_param)
         self.verbose = verbose
 
     def _action_one_hot(self,action):
@@ -54,7 +79,7 @@ class PPO_main_system:
         mario = Mario(0, 12, level, screen, dashboard, sound, menu.rl_mode)
         return screen, menu, sound, level, dashboard, mario
 
-    def train(self,max_epi,target_score, screen, menu, sound, level, dashboard):
+    def train(self,max_epi,target_score, screen, menu, sound, level, dashboard, load_model = False):
         '''
         학습 시작
 
@@ -65,9 +90,12 @@ class PPO_main_system:
         '''
 
         mario = Mario(0, 12, level, screen, dashboard, sound, menu.rl_mode)
+
         summary = SummaryWriter()
 
-        break_counter = 0
+        if(load_model):
+            self.Agent.load_model()
+
         for epi in range(max_epi):
             done = False
 
@@ -91,6 +119,7 @@ class PPO_main_system:
                 print(f"log >> {epi} epi fin.   score : {tot_reward}")
 
             summary.add_scalar('reward', tot_reward, epi)
+
             if tot_reward >= target_score:
                 break_counter += 1
                 if break_counter >= 5:
