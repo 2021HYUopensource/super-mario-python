@@ -24,7 +24,7 @@ if len(gpu) > 0:
         pass
 
 #############################################
-learning_rate = 0.003
+learning_rate = 0.001
 loss_clipping = 0.2
 entropy_loss = 0.001
 
@@ -109,16 +109,26 @@ class PPO_critic_Network:
 
 class PPO_Agent:
 
-    def __init__(self, state_shape, action_size,verbose):
+    def __init__(self, state_shape, action_size,verbose,param):
 
         self.state_shape = state_shape
         self.action_size = action_size
         self.reset_buffer()
         self.epi = 0
         self.limit_count = 0
-        self.batch_size = 1000
+
+        self.learning_rate = param['learning_rate']
+        self.loss_clipping = param['loss_clipping']
+        self.entropy_loss = param['entropy_loss']
+
+        self.gamma = param['gamma']
+        self.lmbda = param['lmbda']
+
+        self.batch_size = param['batch_size']
+        self.epoch = param['epoch']
+        self.learning_rate = param
         self.count = 0
-        self.dummy = np.zeros((1000, 1))
+        self.dummy = np.zeros((self.batch_size, 1))
         self.train_count = 0
         self.verbose = verbose
 
@@ -126,9 +136,7 @@ class PPO_Agent:
         self.act_model = PPO_act_Network(self.state_shape, self.action_size)
         self.critic_model = PPO_critic_Network(self.state_shape, self.action_size)
 
-        # if(mode == 'test'):
-        #     self.act_model.Model.load_weights("./_actor/")
-        #     self.critic_model.Model.load_weights("./_critic/")
+
 
     # 메모리 초기화
     def reset_buffer(self):
@@ -219,3 +227,8 @@ class PPO_Agent:
         critic = "./_critic/"
         self.act_model.Model.save_weights(actor)
         self.critic_model.Model.save_weights(critic)
+
+
+    def load_model(self):
+        self.act_model.Model.load_weights("./_actor/")
+        self.critic_model.Model.load_weights("./_critic/")
