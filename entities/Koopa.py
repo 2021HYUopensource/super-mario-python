@@ -35,7 +35,7 @@ class Koopa(EntityBase):
     def update(self, camera):
         '''
         쿠파의 모습을 업데이트하는 함수
-
+        :param camera:카메라 클래스
         '''
         if self.alive and self.active:
             self.updateAlive(camera)
