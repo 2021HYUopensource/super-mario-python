@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import pygame
 from pygame.locals import *
+import pyautogui
 
 class SuperMarioEnv():
     def __init__(self, img_count):
@@ -22,7 +23,7 @@ class SuperMarioEnv():
             reward += 0.1
         elif x_diff < 0:
             reward -= 0.1
-        reward += good_act * 0.1
+        reward += good_act * 0.2
         if is_win:
             reward += 15
         elif is_death:
@@ -64,10 +65,12 @@ class SuperMarioEnv():
                     for _ in range(self.img_count - i - 1):
                         state_imgs.append(last_img.copy())
                 break
-        if self.mario.rect.x > self.prev_x:
-            self.prev_x = self.mario.rect.x
+        # if self.mario.rect.x > self.prev_x:
+        #     self.prev_x = self.mario.rect.x
+
+        self.prev_x = self.mario.rect.x
         self.mario.count_good = 0
-        print(reward_total)
+        reward_total -= 0.01
         return np.asarray(state_imgs), reward_total
 
     def reset(self, screen, menu, sound, level, dashboard, mario):
@@ -86,39 +89,101 @@ class SuperMarioEnv():
         return state
 
     def step(self, action):
-        newevent = []
+        newevent = None
+        action_r = 0
+        #Nope
         if action == 0:
-            newevent = None
+
+            pyautogui.keyUp('left')
+            pyautogui.keyUp('right')
+            pyautogui.keyUp('up')
+            pyautogui.keyUp('shift')
+
+        #right
         elif action == 1:
-            newevent.append(pygame.event.Event(KEYDOWN, key=K_RIGHT, mod=KMOD_NONE))
+
+            pyautogui.keyUp('left')
+            pyautogui.keyDown('right')
+            pyautogui.keyUp('up')
+            pyautogui.keyUp('shift')
+            action_r = 0.01
+
+        #jump
         elif action == 2:
-            newevent.append( pygame.event.Event(KEYDOWN, key=K_SPACE, mod=KMOD_NONE))
+
+            pyautogui.keyUp('left')
+            pyautogui.keyUp('right')
+            pyautogui.keyDown('up')
+            pyautogui.keyUp('shift')
+
+        #left
         elif action == 3:
-            newevent.append(pygame.event.Event(KEYDOWN, key=K_LEFT, mod=KMOD_NONE))
+
+            pyautogui.keyDown('left')
+            pyautogui.keyUp('right')
+            pyautogui.keyUp('up')
+            pyautogui.keyUp('shift')
+
+        #jump&left
         elif action == 4:
-            newevent.append(pygame.event.Event(KEYDOWN, key=K_SPACE, mod=KMOD_NONE))
-            newevent.append(pygame.event.Event(KEYDOWN, key=K_LEFT, mod=KMOD_NONE))
+
+            pyautogui.keyDown('left')
+            pyautogui.keyUp('right')
+            pyautogui.keyDown('up')
+            pyautogui.keyUp('shift')
+
+        #jump&right
         elif action == 5:
-            newevent.append(pygame.event.Event(KEYDOWN, key=K_SPACE, mod=KMOD_NONE))
-            newevent.append(pygame.event.Event(KEYDOWN, key=K_RIGHT, mod=KMOD_NONE))
+
+            pyautogui.keyDown('left')
+            pyautogui.keyUp('right')
+            pyautogui.keyDown('up')
+            pyautogui.keyUp('shift')
+            action_r = 0.01
+
+        #run&right
         elif action == 6:
-            newevent.append(pygame.event.Event(KEYDOWN, key=K_RIGHT, mod=KMOD_SHIFT))
+
+            pyautogui.keyUp('left')
+            pyautogui.keyDown('right')
+            pyautogui.keyUp('up')
+            pyautogui.keyDown('shift')
+            action_r = 0.02
+
+        #run&left
         elif action == 7:
-            newevent.append(pygame.event.Event(KEYDOWN, key=K_LEFT, mod=KMOD_SHIFT))
+
+            pyautogui.keyDown('left')
+            pyautogui.keyUp('right')
+            pyautogui.keyUp('up')
+            pyautogui.keyDown('shift')
+
+        #run&jump&left
         elif action == 8:
-            newevent.append(pygame.event.Event(KEYDOWN, key=K_SPACE, mod=KMOD_NONE))
-            newevent.append(pygame.event.Event(KEYDOWN, key=K_LEFT, mod=KMOD_SHIFT))
+
+
+
+            pyautogui.keyDown('left')
+            pyautogui.keyUp('right')
+            pyautogui.keyDown('up')
+            pyautogui.keyDown('shift')
+
+        #run&jump&right
         elif action == 9:
-            newevent.append(pygame.event.Event(KEYDOWN, key=K_SPACE, mod=KMOD_NONE))
-            newevent.append(pygame.event.Event(KEYDOWN, key=K_RIGHT, mod=KMOD_SHIFT))
+
+            pyautogui.keyUp('left')
+            pyautogui.keyDown('right')
+            pyautogui.keyDown('up')
+            pyautogui.keyDown('shift')
+            action_r = 0.02
 
         state_imgs, reward_total = self.get_screen(newevent, False)
-
+        reward_total += action_r
         done = False
         if self.mario.win or self.mario.over:
             done = True
 
-        return state_imgs, reward_total, done
+        return state_imgs, reward_total, done,self.dashboard.time
 
     def state_shape(self):
         return (84, 84, 4)

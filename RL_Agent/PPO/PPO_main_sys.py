@@ -17,13 +17,13 @@ from entities.Mario import Mario
 import cv2
 
 ppo_def_param = {
-    "learning_rate": 0.003,
+    "learning_rate": 0.001,
     "loss_clipping": 0.2,
     "entropy_loss": 0.001,
-    "epoch": 10,
-    "gamma": 0.99,
+    "epoch": 8,
+    "gamma": 0.98,
     "lmbda": 0.95,
-    "batch_size": 1000
+    "batch_size": 512
 }
 
 
@@ -104,10 +104,13 @@ class PPO_main_system:
             state = make_stack(np.asarray(state))
 
             tot_reward = 0
+            time = 0
             while not done:
                 action, action_onehot, act_prob = self.Agent.get_act(state)
-                print(action, action_onehot, act_prob)
-                next_state, reward, done = self.env.step(action)
+                next_state, reward, done,time = self.env.step(action)
+                if(time >= 300):
+                    print("time over!");
+                    break;
                 next_state = make_stack(np.asarray(next_state))
 
                 tot_reward += reward
