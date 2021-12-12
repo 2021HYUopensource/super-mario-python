@@ -9,6 +9,9 @@ from traits.leftrightwalk import LeftRightWalkTrait
 
 
 class Koopa(EntityBase):
+    '''
+    초록색 거북이 엉금엉금 엔티티에 관한 클래스
+    '''
     def __init__(self, screen, spriteColl, x, y, level, sound):
         super(Koopa, self).__init__(y - 1, x, 1.25)
         self.spriteCollection = spriteColl
@@ -30,6 +33,10 @@ class Koopa(EntityBase):
         self.sound = sound
 
     def update(self, camera):
+        '''
+        엉금엉금의 모습을 업데이트하는 함수
+        :param camera:카메라 클래스
+        '''
         if self.alive and self.active:
             self.updateAlive(camera)
             self.checkEntityCollision()
@@ -40,6 +47,9 @@ class Koopa(EntityBase):
             self.shellBouncing(camera)
 
     def drawKoopa(self, camera):
+        '''
+        엉금엉금 엔티티를 화면에 그리는 함수
+        '''
         if self.leftrightTrait.direction == -1:
             self.screen.blit(
                 self.animation.image, (self.rect.x + camera.x, self.rect.y - 32)
@@ -51,6 +61,9 @@ class Koopa(EntityBase):
             )
 
     def shellBouncing(self, camera):
+        '''
+        껍질 속에 들어간 엉금엉금을 밀었을 때 동작하는 함수
+        '''
         self.leftrightTrait.speed = 4
         self.applyGravity()
         self.animation.image = self.spriteCollection.get("koopa-hiding").image
@@ -58,6 +71,9 @@ class Koopa(EntityBase):
         self.leftrightTrait.update()
 
     def sleepingInShell(self, camera):
+        '''
+        엉금엉금이 껍질 속에 들어가 있을지 결정하는 함수
+        '''
         if self.timer < self.timeAfterDeath:
             self.screen.blit(
                 self.spriteCollection.get("koopa-hiding").image,
@@ -71,12 +87,18 @@ class Koopa(EntityBase):
         self.timer += 0.1
 
     def updateAlive(self, camera):
+        '''
+        엉금엉금이 껍질 밖으로 나올 때 작용하는 함수
+        '''
         self.applyGravity()
         self.drawKoopa(camera)
         self.animation.update()
         self.leftrightTrait.update()
 
     def checkEntityCollision(self):
+        '''
+        엉금엉금과 엔티티의 충돌 여부를 체크하는 함수
+        '''
         for ent in self.levelObj.entityList:
             if ent is not self:
                 collisionState = self.EntityCollider.check(ent)
@@ -85,6 +107,11 @@ class Koopa(EntityBase):
                         self._onCollisionWithMob(ent, collisionState)
 
     def _onCollisionWithMob(self, mob, collisionState):
+        '''
+        몹과 충돌했을때 관여하는 함수
+        :param mob: 충돌한 몹 이름
+        :param collisionState: 충돌 상태 판별(등딱지에 숨은 거북/아닌 거북 등)
+        '''
         if collisionState.isColliding and mob.bouncing:
             self.alive = False
             self.sound.play_sfx(self.sound.brick_bump)

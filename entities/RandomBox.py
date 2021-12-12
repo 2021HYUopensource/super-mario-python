@@ -4,6 +4,9 @@ from entities.EntityBase import EntityBase
 
 
 class RandomBox(EntityBase):
+    '''
+    버섯 등 아이템을 드롭할 수 있는 랜덤박스의 모습을 그리는 함수
+    '''
     def __init__(self, screen, spriteCollection, x, y, item, sound, dashboard, level, gravity=0):
         super(RandomBox, self).__init__(x, y, gravity)
         self.screen = screen
@@ -20,6 +23,11 @@ class RandomBox(EntityBase):
         self.level = level
 
     def update(self, cam):
+        '''
+        랜덤박스의 모습을 업데이트 하는 함수
+
+        :param cam:카메라 클래스
+        '''
         if self.alive and not self.triggered:
             self.animation.update()
         else:

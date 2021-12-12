@@ -7,6 +7,9 @@ from classes.EntityCollider import EntityCollider
 
 
 class RedMushroom(EntityBase):
+    '''
+    마리오의 크기를 커지게 하는 붉은 버섯 엔티티에 관여하는 클래스
+    '''
     def __init__(self, screen, spriteColl, x, y, level, sound):
         super(RedMushroom, self).__init__(y, x - 1, 1.25)
         self.spriteCollection = spriteColl
@@ -25,6 +28,9 @@ class RedMushroom(EntityBase):
         self.sound = sound
 
     def update(self, camera):
+        '''
+        버섯 엔티티의 상태를 업데이트하는 함수
+        '''
         if self.alive:
             self.applyGravity()
             self.drawRedMushroom(camera)
@@ -34,10 +40,16 @@ class RedMushroom(EntityBase):
             self.onDead(camera)
 
     def drawRedMushroom(self, camera):
+        '''
+        붉은 버섯 엔티티를 그리는 함수
+        '''
         self.screen.blit(self.animation.image, (self.rect.x + camera.x, self.rect.y))
         self.animation.update()
 
     def onDead(self, camera):
+        '''
+        버섯이 사라지는 상황에 관여하는 함수
+        '''
         if self.timer == 0:
             self.setPointsTextStartPosition(self.rect.x + 3, self.rect.y)
         if self.timer < self.timeAfterDeath:
@@ -54,4 +66,7 @@ class RedMushroom(EntityBase):
         self.dashboard.drawText("100", self.textPos.x + camera.x, self.textPos.y, 8)
 
     def checkEntityCollision(self):
+        '''
+        다른 엔티티와 충돌했는지를 체크하는 함수
+        '''
         pass
